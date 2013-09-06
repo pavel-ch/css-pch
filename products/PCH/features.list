@@ -1,0 +1,12 @@
+org.csstudio.alarm.beast.ui.feature
+org.csstudio.channel.feature
+org.csstudio.pch.applications.feature
+org.csstudio.pch.basic.applications.feature
+org.csstudio.pch.feature.core
+org.csstudio.pch.feature.eclipse
+org.csstudio.pch.pchcore.feature
+org.csstudio.pch.product.feature
+org.csstudio.olog.feature
+org.csstudio.opibuilder.feature
+org.csstudio.trends.databrowser2.feature
+org.csstudio.trends.databrowser2.opiwidget.feature

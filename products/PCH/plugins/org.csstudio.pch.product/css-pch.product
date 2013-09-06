@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?pde version="3.5"?>
+
+<product name="Css-pch" id="org.csstudio.pch.product.product" application="org.csstudio.pch.product.application" version="3.1.6.qualifier" useFeatures="true" includeLaunchers="true">
+
+   <aboutInfo>
+      <image path="/org.csstudio.pch.product/icons/about.png"/>
+   </aboutInfo>
+
+   <configIni use="default">
+   </configIni>
+
+   <launcherArgs>
+      <programArgs>-</programArgs>
+      <vmArgs>-Xmx1024m
+-Xms128m
+-XX:MaxPermSize=128M</vmArgs>
+      <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts</vmArgsMac>
+   </launcherArgs>
+
+   <windowImages i16="/org.csstudio.pch.product/icons/css16.png" i32="/org.csstudio.pch.product/icons/css32.png" i48="/org.csstudio.pch.product/icons/css48.png" i64="/org.csstudio.pch.product/icons/css64.png" i128="/org.csstudio.pch.product/icons/css128.png"/>
+
+   <splash
+      location="org.csstudio.pch.product"
+      startupProgressRect="5,250,461,15"
+      startupMessageRect="7,230,457,20"
+      startupForegroundColor="FFFFFF" />
+   <launcher name="css-pch">
+      <solaris/>
+      <win useIco="true">
+         <ico path="/org.csstudio.pch.product/icons/css.ico"/>
+         <bmp/>
+      </win>
+   </launcher>
+
+   <intro introId="org.eclipse.ui.intro.universal"/>
+
+   <vm>
+   </vm>
+
+   <plugins>
+   </plugins>
+
+   <features>
+      <feature id="org.csstudio.pch.eclipse.feature" version="3.1.0.qualifier"/>
+      <feature id="org.csstudio.pch.core.feature" version="3.1.0.qualifier"/>
+      <feature id="org.csstudio.pch.applications.feature" version="3.1.0.qualifier"/>
+      <feature id="org.eclipse.rcp"/>
+      <feature id="org.eclipse.equinox.p2.user.ui"/>
+      <feature id="org.csstudio.pch.pchcore.feature" version="3.1.0.qualifier"/>
+   </features>
+
+
+</product>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <feature url="features/org.csstudio.pch.applications.feature_3.1.0.qualifier.jar" id="org.csstudio.pch.applications.feature" version="3.1.0.qualifier">
+      <category name="Applications"/>
+   </feature>
+   <feature url="features/org.csstudio.pch.core.feature_3.1.0.qualifier.jar" id="org.csstudio.pch.core.feature" version="3.1.0.qualifier">
+      <category name="Core"/>
+   </feature>
+   <feature url="features/org.csstudio.pch.pchcore.feature_3.1.0.qualifier.jar" id="org.csstudio.pch.pchcore.feature" version="3.1.0.qualifier">
+      <category name="Core"/>
+   </feature>
+   <feature url="features/org.csstudio.pch.basic.applications.feature_3.1.1.qualifier.jar" id="org.csstudio.pch.basic.applications.feature" version="3.1.1.qualifier">
+      <category name="Applications"/>
+   </feature>
+   <category-def name="Core" label="Core"/>
+   <category-def name="Applications" label="Applications"/>
+</site>

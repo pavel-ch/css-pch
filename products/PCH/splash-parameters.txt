@@ -1,0 +1,1 @@
+394 53 plugins/org.csstudio.pch.product/splash-template.bmp plugins/org.csstudio.pch.product/splash.bmp
