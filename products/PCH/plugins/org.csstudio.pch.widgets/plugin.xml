@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.csstudio.opibuilder.widget">
+      <widget
+            category="ANDRITZ"
+            editpart_class="org.csstudio.pch.widgets.BinaryEditPart"
+            icon="platform:/plugin/org.csstudio.pch.widgets/icons/LED.png"
+            model_class="org.csstudio.pch.widgets.BinaryModel"
+            name="Binary"
+            typeId="org.csstudio.pch.widgets.Binary">
+      </widget>
+   </extension>
+</plugin>

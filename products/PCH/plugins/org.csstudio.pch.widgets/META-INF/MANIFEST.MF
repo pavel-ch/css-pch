@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Widgets
+Bundle-SymbolicName: org.csstudio.pch.widgets;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: org.csstudio.pch.widgets.Activator
+Require-Bundle: org.csstudio.opibuilder;bundle-version="3.2.10",
+ org.csstudio.opibuilder.widgets;bundle-version="3.2.9",
+ org.csstudio.swt.widgets;bundle-version="2.0.2"
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Export-Package: org.csstudio.pch.widgets
