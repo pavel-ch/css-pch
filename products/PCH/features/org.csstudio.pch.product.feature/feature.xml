@@ -3,7 +3,7 @@
       id="org.csstudio.pch.product.feature"
       label="CSS-pch Product Feature"
       version="3.1.4.qualifier"
-      provider-name="Kunal Shroff &lt;kshroff@bnl.gov&gt;, Gabriele Carcassi &lt;carcassi@bnl.gov&gt; - BNL">
+      provider-name="Pavel Charvat &lt;charvat.pavel@email.cz&gt;">
 
    <description url="http://www.example.com/description">
       The pch product feature.
