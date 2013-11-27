@@ -9,9 +9,8 @@ package org.csstudio.pch.widgets;
 
 import java.beans.BeanInfo;
 import java.beans.IntrospectionException;
-import java.util.logging.Level;
+//import java.util.logging.Level;
 
-import java.util.logging.Logger;
 import org.csstudio.swt.widgets.introspection.DefaultWidgetIntrospector;
 import org.csstudio.swt.widgets.introspection.Introspectable;
 import org.csstudio.swt.widgets.util.GraphicsUtil;
@@ -38,8 +37,8 @@ import org.eclipse.swt.widgets.Display;
  */
 public class BinaryFigure extends Figure implements Introspectable {
 
-	Bulb bulb; 
-	private final static int OUTLINE_WIDTH = 2;
+	//Bulb bulb; 
+//	private final static int OUTLINE_WIDTH = 2;
 	private final static int SQURE_BORDER_WIDTH = 1;
 	private final static Color DARK_GRAY_COLOR = CustomMediaFactory.getInstance().getColor(
 			CustomMediaFactory.COLOR_DARK_GRAY); 
@@ -48,27 +47,27 @@ public class BinaryFigure extends Figure implements Introspectable {
 	private final static Color BLACK_COLOR = CustomMediaFactory.getInstance().getColor(
 			CustomMediaFactory.COLOR_BLACK); 
 	private boolean effect3D = true;
-	private boolean squareLED = false;
+	private boolean binaryAuto = false;
 	public BinaryFigure() {
-		boolLabel = new Label(offLabel){
+		binLabel = new Label(Label0){
 			@Override
 			public boolean containsPoint(int x, int y) {
 				return false;
 			}
 		};
-		boolLabel.setVisible(showBooleanLabel);
-		bulb = new Bulb();		
+		binLabel.setVisible(showBinaryLabel);
+		//bulb = new Bulb();		
 		setLayoutManager(new XYLayout());
-		add(bulb);
-		add(boolLabel);
-		bulb.setBulbColor(booleanValue ? onColor : offColor);		
+		//add(bulb);
+		add(binLabel);
+		//bulb.setBulbColor(booleanValue ? onColor : offColor);		
 	}
 	
-	public enum TotalBits {
+/*	public enum TotalBits {
 		BITS_16,
 		BITS_32,
 		BITS_64
-	}
+	}*/
 	
 	public enum BinaryLabelPosition{
 		
@@ -102,43 +101,49 @@ public class BinaryFigure extends Figure implements Introspectable {
 		}
 	}
 	
-	private TotalBits totalBits = TotalBits.BITS_64;
-
-	protected Label boolLabel;
+	protected Label binLabel;
 
 	protected long value = 0;
 
-	protected int bit = -1;
+	protected boolean showBinaryLabel = false;
 
-	protected boolean showBooleanLabel = false;
+	protected int intValue = 0;
 
-	protected boolean booleanValue = false;
-
-	protected String onLabel = "ON";
-
-	protected String offLabel = "OFF";
+	protected String Label0 = "OFF";
 	
-	protected BinaryLabelPosition boolLabelPosition = BinaryLabelPosition.DEFAULT;
+	protected String Label1 = "ON";
 
-	protected Color onColor = CustomMediaFactory.getInstance().getColor(
+	protected String Label2 = "DIFF";
+
+	protected String Label3 = "FAIL";
+
+	protected BinaryLabelPosition binLabelPosition = BinaryLabelPosition.DEFAULT;
+
+	protected Color Color0 = CustomMediaFactory.getInstance().getColor(
+			new RGB(0,128,0));
+
+	protected Color Color1 = CustomMediaFactory.getInstance().getColor(
 			CustomMediaFactory.COLOR_GREEN);
 
-	protected Color offColor = CustomMediaFactory.getInstance().getColor(
-			new RGB(0,128,0));
+	protected Color Color2 = CustomMediaFactory.getInstance().getColor(
+			CustomMediaFactory.COLOR_YELLOW);
+
+	protected Color Color3 = CustomMediaFactory.getInstance().getColor(
+			CustomMediaFactory.COLOR_RED);
 
 	private Point labelLocation;
 
 	protected void calculateLabelLocation(Point defaultLocation) {
-		if(boolLabelPosition == BinaryLabelPosition.DEFAULT){
+		if(binLabelPosition == BinaryLabelPosition.DEFAULT){
 			labelLocation =  defaultLocation;
 			return;
 		}
 		Rectangle textArea = getClientArea();		
 		Dimension textSize = TextUtilities.INSTANCE.getTextExtents(
-				boolLabel.getText(), getFont());
+				binLabel.getText(), getFont());
 			int x=0;
 			if(textArea.width > textSize.width){				
-				switch (boolLabelPosition) {
+				switch (binLabelPosition) {
 				case CENTER:
 				case TOP:
 				case BOTTOM:
@@ -156,7 +161,7 @@ public class BinaryFigure extends Figure implements Introspectable {
 			
 			int y=0;
 			if(textArea.height > textSize.height){
-				switch (boolLabelPosition) {
+				switch (binLabelPosition) {
 				case CENTER:
 				case LEFT:
 				case RIGHT:
@@ -179,17 +184,10 @@ public class BinaryFigure extends Figure implements Introspectable {
 
 	
 	/**
-	 * @return the bit
+	 * @return the intValue
 	 */
-	public int getBit() {
-		return bit;
-	}
-
-	/**
-	 * @return the boolValue
-	 */
-	public boolean getBooleanValue() {
-		return booleanValue;
+	public int getIntValue() {
+		return intValue;
 	}
 	
 	protected Point getLabelLocation(final int x, final int y){
@@ -206,15 +204,15 @@ public class BinaryFigure extends Figure implements Introspectable {
 		return labelLocation;
 	}
 	
-	public BinaryLabelPosition getBoolLabelPosition() {
-		return boolLabelPosition;
+	public BinaryLabelPosition getBinLabelPosition() {
+		return binLabelPosition;
 	}
 
 	/**
 	 * @return the offColor
 	 */
-	public Color getOffColor() {
-		return offColor;
+	public Color getColor0() {
+		return Color0;
 	}
 
 
@@ -222,22 +220,50 @@ public class BinaryFigure extends Figure implements Introspectable {
 	/**
 	 * @return the offLabel
 	 */
-	public String getOffLabel() {
-		return offLabel;
+	public String getLabel0() {
+		return Label0;
 	}
 
 	/**
 	 * @return the onColor
 	 */
-	public Color getOnColor() {
-		return onColor;
+	public Color getColor1() {
+		return Color1;
 	}
 
 	/**
 	 * @return the onLabel
 	 */
-	public String getOnLabel() {
-		return onLabel;
+	public String getLabel1() {
+		return Label1;
+	}
+
+	/**
+	 * @return the diffColor
+	 */
+	public Color getColor2() {
+		return Color2;
+	}
+
+	/**
+	 * @return the diffLabel
+	 */
+	public String getLabel2() {
+		return Label2;
+	}
+
+	/**
+	 * @return the failColor
+	 */
+	public Color getColor3() {
+		return Color3;
+	}
+
+	/**
+	 * @return the failLabel
+	 */
+	public String getLabel3() {
+		return Label3;
 	}
 
 	/**
@@ -261,26 +287,15 @@ public class BinaryFigure extends Figure implements Introspectable {
 	/**
 	 * @return the showBooleanLabel
 	 */
-	public boolean isShowBooleanLabel() {
-		return showBooleanLabel;
+	public boolean isShowBinaryLabel() {
+		return showBinaryLabel;
 	}
 
-	/**
-	 * @param bit the bit to set
-	 */
-	public void setBit(int bit) {
-		if(this.bit == bit)
+	public void setIntValue(int value){
+		if(this.intValue == value)
 			return;
-		this.bit = bit;
-		updateBoolValue();
-	}
-
-
-	public void setBooleanValue(boolean value){
-		if(this.booleanValue == value)
-			return;
-		this.booleanValue = value;
-		updateValue();
+		this.intValue = value;
+		setValue(intValue);
 	}
 
 	@Override
@@ -292,48 +307,70 @@ public class BinaryFigure extends Figure implements Introspectable {
 	@Override
 	public void setFont(Font f) {
 		super.setFont(f);
-		boolLabel.setFont(f);
+		binLabel.setFont(f);
 		revalidate();
 	}
 	
-	public void setBoolLabelPosition(BinaryLabelPosition labelPosition) {
-		this.boolLabelPosition = labelPosition;
+	public void setBinLabelPosition(BinaryLabelPosition labelPosition) {
+		this.binLabelPosition = labelPosition;
 		labelPosition = null;
 		revalidate();
 		repaint();
 	}
 
 	/**
-	 * @param offLabel the offLabel to set
+	 * @param Label the offLabel to set
 	 */
-	public void setOffLabel(String offLabel) {
-		if(this.offLabel != null && this.offLabel.equals(offLabel))
+	public void setLabel0(String Label) {
+		if(this.Label0 != null && this.Label0.equals(Label))
 			return;
-		this.offLabel = offLabel;
-		if(!booleanValue)
-			boolLabel.setText(offLabel);
+		this.Label0 = Label;
+		if(intValue == 0)
+			binLabel.setText(Label);
 		
 	}
 
 	/**
-	 * @param onLabel the onLabel to set
+	 * @param Label the onLabel to set
 	 */
-	public void setOnLabel(String onLabel) {
-		if(this.onLabel != null && this.onLabel.equals(onLabel))
+	public void setLabel1(String Label) {
+		if(this.Label1 != null && this.Label1.equals(Label))
 			return;
-		this.onLabel = onLabel;
-		if(booleanValue)
-			boolLabel.setText(onLabel);
+		this.Label1 = Label;
+		if(intValue == 1)
+			binLabel.setText(Label);
+	}
+
+	/**
+	 * @param Label the diffLabel to set
+	 */
+	public void setLabel2(String Label) {
+		if(this.Label2 != null && this.Label2.equals(Label))
+			return;
+		this.Label2 = Label;
+		if(intValue == 2)
+			binLabel.setText(Label);
+	}
+
+	/**
+	 * @param Label the failLabel to set
+	 */
+	public void setLabel3(String Label) {
+		if(this.Label3 != null && this.Label3.equals(Label))
+			return;
+		this.Label3 = Label;
+		if(intValue >= 3)
+			binLabel.setText(Label);
 	}
 
 	/**
 	 * @param showBooleanLabel the showBooleanLabel to set
 	 */
-	public void setShowBooleanLabel(boolean showBooleanLabel) {
-		if(this.showBooleanLabel == showBooleanLabel)
+	public void setShowBinLabel(boolean showBooleanLabel) {
+		if(this.showBinaryLabel == showBooleanLabel)
 			return;
-		this.showBooleanLabel = showBooleanLabel;
-		boolLabel.setVisible(showBooleanLabel);
+		this.showBinaryLabel = showBooleanLabel;
+		binLabel.setVisible(showBooleanLabel);
 	}
 
 	/**
@@ -350,51 +387,10 @@ public class BinaryFigure extends Figure implements Introspectable {
 		if(this.value == value)
 			return;
 		this.value = value;
-		updateBoolValue();
+		updateIntValue();
 		revalidate();
 		repaint();
 	}
-
-	/**
-	 * update the value from boolValue
-	 */
-	@SuppressWarnings("nls")
-    protected void updateValue(){
-		//get boolValue
-		if(bit < 0)
-			setValue(booleanValue ? 1 : 0);
-		else if(bit >=0) {
-			if(bit >= 64) {
-			    // Log with exception to obtain call stack
-				Activator.getLogger(Activator.PLUGIN_ID).log(Level.WARNING, "Bit " + bit + "can not exceed 63.", new Exception());
-			}
-			else {
-				switch (totalBits) {
-				case BITS_16:
-					setValue(booleanValue? value | ((short)1<<bit) : value & ~((short)1<<bit));
-				break;				
-				case BITS_32:
-					setValue(booleanValue? value | ((int)1<<bit) : value & ~((int)1<<bit));
-				break;
-				default:				
-					setValue(booleanValue? value | (1L<<bit) : value & ~(1L<<bit));
-					break;
-				}			
-			}
-		}
-	}
-	
-	public TotalBits getTotalBits() {
-		return totalBits;
-	}
-
-	/**
-	 * @param totalBits number of total bits
-	 */
-	public void setTotalBits(TotalBits totalBits) {
-		this.totalBits = totalBits;
-	}
-
 
 	public BeanInfo getBeanInfo() throws IntrospectionException {
 		return new DefaultWidgetIntrospector().getBeanInfo(this.getClass());
@@ -408,23 +404,19 @@ public class BinaryFigure extends Figure implements Introspectable {
 	}
 	
 	/**
-	 * @return the squareLED
+	 * @return the binaryAuto
 	 */
-	public boolean isSquareLED() {
-		return squareLED;
+	public boolean isBinaryAuto() {
+		return binaryAuto;
 	}
 	
 	@Override
 	protected void layout() {	
-		Rectangle bulbBounds = getClientArea().getCopy();
-		if(bulb.isVisible() && !squareLED){			
-			bulbBounds.shrink(OUTLINE_WIDTH, OUTLINE_WIDTH);
-			bulb.setBounds(bulbBounds);
-		}		
-		if(boolLabel.isVisible()){
-			Dimension labelSize = boolLabel.getPreferredSize();				
-			boolLabel.setBounds(new Rectangle(bulbBounds.x + bulbBounds.width/2 - labelSize.width/2,
-					bulbBounds.y + bulbBounds.height/2 - labelSize.height/2,
+		Rectangle myBounds = getClientArea().getCopy();
+		if(binLabel.isVisible()){
+			Dimension labelSize = binLabel.getPreferredSize();				
+			binLabel.setBounds(new Rectangle(myBounds.x + myBounds.width/2 - labelSize.width/2,
+					myBounds.y + myBounds.height/2 - labelSize.height/2,
 					labelSize.width, labelSize.height));
 		}
 		super.layout();
@@ -436,7 +428,6 @@ public class BinaryFigure extends Figure implements Introspectable {
 		graphics.setAntialias(SWT.ON);		
 		Rectangle clientArea = getClientArea().getCopy();
 		boolean support3D = GraphicsUtil.testPatternSupported(graphics);
-		if(squareLED){
 			if(effect3D && support3D){
 				//draw up border			
 				Pattern pattern = GraphicsUtil.createScaledPattern(graphics, Display.getCurrent(), clientArea.x, clientArea.y, 
@@ -486,7 +477,11 @@ public class BinaryFigure extends Figure implements Introspectable {
 				
 				//draw light
 				clientArea.shrink(SQURE_BORDER_WIDTH, SQURE_BORDER_WIDTH);
-				Color fillColor = booleanValue?onColor:offColor;
+				Color fillColor;
+				if (intValue == 0) fillColor = Color0;
+				else if (intValue == 1) fillColor = Color1;
+				else if (intValue == 2) fillColor = Color2;
+				else fillColor = Color3;
 		        graphics.setBackgroundColor(fillColor);
 		        graphics.fillRectangle(clientArea);
 				pattern = GraphicsUtil.createScaledPattern(graphics, Display.getCurrent(), clientArea.x,	clientArea.y,
@@ -504,28 +499,15 @@ public class BinaryFigure extends Figure implements Introspectable {
 				graphics.drawRectangle(clientArea);
 				
 				clientArea.shrink(SQURE_BORDER_WIDTH/2, SQURE_BORDER_WIDTH/2);
-				Color fillColor = booleanValue?onColor:offColor;
+				Color fillColor;
+				if (intValue == 0) fillColor = Color0;
+				else if (intValue == 1) fillColor = Color1;
+				else if (intValue == 2) fillColor = Color2;
+				else fillColor = Color3;
 		        graphics.setBackgroundColor(fillColor);
 		        graphics.fillRectangle(clientArea);
 			}
 			
-		}else { // if round LED
-			int width = Math.min(clientArea.width, clientArea.height);
-			Rectangle outRect = new Rectangle(getClientArea().x, getClientArea().y, 
-				width, width);
-			if(effect3D && support3D){
-				graphics.setBackgroundColor(WHITE_COLOR);
-				graphics.fillOval(outRect);
-				Pattern pattern = GraphicsUtil.createScaledPattern(graphics, Display.getCurrent(), outRect.x, outRect.y,
-					outRect.x+width, outRect.y+width, DARK_GRAY_COLOR, 255, DARK_GRAY_COLOR, 0);
-				graphics.setBackgroundPattern(pattern);
-				graphics.fillOval(outRect);
-				pattern.dispose();
-			}else {
-				graphics.setBackgroundColor(DARK_GRAY_COLOR);
-				graphics.fillOval(outRect);
-			}
-		}
 		
 		graphics.popState();
 		super.paintClientArea(graphics);
@@ -538,50 +520,53 @@ public class BinaryFigure extends Figure implements Introspectable {
 		if(this.effect3D == effect3D)
 			return;
 		this.effect3D = effect3D;
-		bulb.setEffect3D(effect3D);
 	}
 	
-	public void setOffColor(Color offColor) {
-		if(this.offColor != null && this.offColor.equals(offColor))
+	public void setColor0(Color offColor) {
+		if(this.Color0 != null && this.Color0.equals(offColor))
 			return;
-		this.offColor = offColor;
+		this.Color0 = offColor;
 		repaint();
-		if(!booleanValue  && bulb.isVisible())
-			bulb.setBulbColor(offColor);
 	}
 
-	public void setOnColor(Color onColor) {
-		if(this.onColor != null && this.onColor.equals(onColor))
+	public void setColor1(Color onColor) {
+		if(this.Color1 != null && this.Color1.equals(onColor))
 			return;
-		this.onColor = onColor;
+		this.Color1 = onColor;
 		repaint();
-		if(booleanValue && bulb.isVisible())
-			bulb.setBulbColor(onColor);
+	}
+
+	public void setColor2(Color Color) {
+		if(this.Color2 != null && this.Color2.equals(Color))
+			return;
+		this.Color2 = Color;
+		repaint();
+	}
+
+	public void setColor3(Color Color) {
+		if(this.Color3 != null && this.Color3.equals(Color))
+			return;
+		this.Color3 = Color;
+		repaint();
 	}
 
 	/**
-	 * @param squareLED the squareLED to set
+	 * @param binAuto the squareLED to set
 	 */
-	public void setSquareLED(boolean squareLED) {
-		if(this.squareLED == squareLED)
+	public void setBinaryAuto(boolean binAuto) {
+		if(this.binaryAuto == binAuto)
 			return;
-		this.squareLED = squareLED;
-		bulb.setVisible(!squareLED);
+		this.binaryAuto = binAuto;
 	}
 
-	protected void updateBoolValue() {
+	protected void updateIntValue() {
 		//get boolValue
-		if(bit < 0)
-			booleanValue = (this.value != 0);
-		else if(bit >=0) {
-			booleanValue = ((value>>bit)&1L) >0;
-		}
+		intValue = (int)this.value;
 		//change boolLabel text
-		if(booleanValue)
-			boolLabel.setText(onLabel);
-		else
-			boolLabel.setText(offLabel);
-		bulb.setBulbColor(booleanValue ? onColor : offColor);
-		
+		if(intValue == 0) binLabel.setText(Label0);
+		else if(intValue == 1) binLabel.setText(Label1);
+		else if(intValue == 2) binLabel.setText(Label2);
+		else if(intValue == 3) binLabel.setText(Label3);
+		else binLabel.setText(Label3);
 	}
 }

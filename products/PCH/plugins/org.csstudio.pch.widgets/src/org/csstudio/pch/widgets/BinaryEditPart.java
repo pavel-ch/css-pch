@@ -15,13 +15,10 @@ import org.csstudio.opibuilder.model.AbstractPVWidgetModel;
 import org.csstudio.opibuilder.model.AbstractWidgetModel;
 import org.csstudio.opibuilder.properties.IWidgetPropertyChangeHandler;
 import org.csstudio.opibuilder.util.OPIColor;
-//import org.csstudio.opibuilder.widgets.model.BinaryModel;
 import org.csstudio.pch.widgets.BinaryFigure;
 import org.csstudio.pch.widgets.BinaryModel;
 import org.csstudio.simplepv.VTypeHelper;
-//import org.csstudio.swt.widgets.figures.BinaryFigure;
 import org.csstudio.pch.widgets.BinaryFigure.BinaryLabelPosition;
-import org.csstudio.pch.widgets.BinaryFigure.TotalBits;
 import org.csstudio.ui.util.CustomMediaFactory;
 import org.eclipse.draw2d.IFigure;
 import org.epics.vtype.VType;
@@ -39,21 +36,20 @@ public class BinaryEditPart extends AbstractPVWidgetEditPart{
 
 		BinaryFigure Binary = new BinaryFigure();
 		
-		if(model.getDataType() == 0)
-			Binary.setBit(model.getBit());
-		else
-			Binary.setBit(-1);
-		updatePropSheet(model.getDataType());
-		Binary.setShowBooleanLabel(model.isShowBoolLabel());
-		Binary.setOnLabel(model.getOnLabel());
-		Binary.setOffLabel(model.getOffLabel());
-		Binary.setOnColor(model.getOnColor());
-		Binary.setOffColor(model.getOffColor());
+		Binary.setShowBinLabel(model.isShowBinLabel());
+		Binary.setLabel0(model.getLabel0());
+		Binary.setLabel1(model.getLabel1());
+		Binary.setLabel2(model.getLabel2());
+		Binary.setLabel3(model.getLabel3());
+		Binary.setColor0(model.getColor0());
+		Binary.setColor1(model.getColor1());
+		Binary.setColor2(model.getColor2());
+		Binary.setColor3(model.getColor3());
 		Binary.setFont(CustomMediaFactory.getInstance().getFont(
 				model.getFont().getFontData()));
-		Binary.setBoolLabelPosition(model.getBoolLabelPosition());
+		Binary.setBinLabelPosition(model.getBinLabelPosition());
 		Binary.setEffect3D(model.isEffect3D());
-		Binary.setSquareLED(model.isSquareLED());
+		Binary.setBinaryAuto(model.isBinaryAuto());
 		return Binary;
 		
 		
@@ -75,17 +71,6 @@ public class BinaryEditPart extends AbstractPVWidgetEditPart{
 					return false;
 				BinaryFigure figure = (BinaryFigure) refreshableFigure;
 				
-				switch (VTypeHelper.getBasicDataType((VType) newValue)) {
-				case SHORT:
-					figure.setTotalBits(TotalBits.BITS_16);
-					break;
-				case INT:
-				case ENUM:
-					figure.setTotalBits(TotalBits.BITS_32);
-					break;
-				default:
-					break;
-				}
 				updateFromValue((VType) newValue, figure);
 				return true;
 			}
@@ -94,113 +79,76 @@ public class BinaryEditPart extends AbstractPVWidgetEditPart{
 		};
 		setPropertyChangeHandler(AbstractPVWidgetModel.PROP_PVVALUE, handler);
 
-		// bit
-		handler = new IWidgetPropertyChangeHandler() {
-			public boolean handleChange(final Object oldValue,
-					final Object newValue,
-					final IFigure refreshableFigure) {
-				if(getWidgetModel().getDataType() != 0)
-					return false;
-				BinaryFigure figure = (BinaryFigure) refreshableFigure;
-				figure.setBit((Integer) newValue);
-				updateFromValue(getPVValue(AbstractPVWidgetModel.PROP_PVNAME), figure);
-				return true;
-			}
-		};
-		setPropertyChangeHandler(BinaryModel.PROP_BIT, handler);
-
-		//data type
-	    final IWidgetPropertyChangeHandler	dataTypeHandler = new IWidgetPropertyChangeHandler() {
-
-			public boolean handleChange(Object oldValue, Object newValue, IFigure refreshableFigure) {
-				BinaryFigure figure = (BinaryFigure) refreshableFigure;
-				if((Integer)newValue == 0)
-					figure.setBit(getWidgetModel().getBit());
-				else
-					figure.setBit(-1);
-				updateFromValue(getPVValue(AbstractPVWidgetModel.PROP_PVNAME), figure);
-				updatePropSheet((Integer)newValue);
-				return true;
-			}
-		};
-		getWidgetModel().getProperty(BinaryModel.PROP_DATA_TYPE).
-			addPropertyChangeListener(new PropertyChangeListener() {
-
-				public void propertyChange(PropertyChangeEvent evt) {
-					dataTypeHandler.handleChange(evt.getOldValue(), evt.getNewValue(), getFigure());
-				}
-			});
-
-		//on state
-		handler = new IWidgetPropertyChangeHandler() {
-
-			public boolean handleChange(Object oldValue, Object newValue, IFigure refreshableFigure) {
-				BinaryFigure figure = (BinaryFigure) refreshableFigure;
-				updateFromValue(getPVValue(AbstractPVWidgetModel.PROP_PVNAME), figure);
-				return true;
-			}
-		};
-		setPropertyChangeHandler(BinaryModel.PROP_ON_STATE, handler);
-
-
 		// show bool label
 		handler = new IWidgetPropertyChangeHandler() {
 			public boolean handleChange(final Object oldValue,
 					final Object newValue,
 					final IFigure refreshableFigure) {
 				BinaryFigure figure = (BinaryFigure) refreshableFigure;
-				figure.setShowBooleanLabel((Boolean) newValue);
+				figure.setShowBinLabel((Boolean) newValue);
 				return true;
 			}
 		};
-		setPropertyChangeHandler(BinaryModel.PROP_SHOW_BOOL_LABEL, handler);
+		setPropertyChangeHandler(BinaryModel.PROP_BINARY_SHOW_LABEL, handler);
 
 		//  bool label position
 		handler = new IWidgetPropertyChangeHandler() {
 			public boolean handleChange(final Object oldValue,
 					final Object newValue, final IFigure refreshableFigure) {
 				BinaryFigure figure = (BinaryFigure) refreshableFigure;
-				figure.setBoolLabelPosition(BinaryLabelPosition.values()[(Integer)newValue]);
+				figure.setBinLabelPosition(BinaryLabelPosition.values()[(Integer)newValue]);
 				return false;
 			}
 		};
-		setPropertyChangeHandler(BinaryModel.PROP_BOOL_LABEL_POS, handler);
+		setPropertyChangeHandler(BinaryModel.PROP_BINARY_LABEL_POS, handler);
 	
-		// on label
-		handler = new IWidgetPropertyChangeHandler() {
-			public boolean handleChange(final Object oldValue,
-					final Object newValue,
-					final IFigure refreshableFigure) {
-				BinaryFigure figure = (BinaryFigure) refreshableFigure;
-				figure.setOnLabel((String) newValue);
-				return true;
-			}
-		};
-		setPropertyChangeHandler(BinaryModel.PROP_ON_LABEL, handler);
-
 		// off label
 		handler = new IWidgetPropertyChangeHandler() {
 			public boolean handleChange(final Object oldValue,
 					final Object newValue,
 					final IFigure refreshableFigure) {
 				BinaryFigure figure = (BinaryFigure) refreshableFigure;
-				figure.setOffLabel((String) newValue);
+				figure.setLabel0((String) newValue);
 				return true;
 			}
 		};
-		setPropertyChangeHandler(BinaryModel.PROP_OFF_LABEL, handler);
+		setPropertyChangeHandler(BinaryModel.PROP_LABEL_0, handler);
 
-		// on color
+		// on label
 		handler = new IWidgetPropertyChangeHandler() {
 			public boolean handleChange(final Object oldValue,
 					final Object newValue,
 					final IFigure refreshableFigure) {
 				BinaryFigure figure = (BinaryFigure) refreshableFigure;
-				figure.setOnColor(((OPIColor) newValue).getSWTColor());
+				figure.setLabel1((String) newValue);
 				return true;
 			}
 		};
-		setPropertyChangeHandler(BinaryModel.PROP_ON_COLOR, handler);
+		setPropertyChangeHandler(BinaryModel.PROP_LABEL_1, handler);
+
+		// dif label
+		handler = new IWidgetPropertyChangeHandler() {
+			public boolean handleChange(final Object oldValue,
+					final Object newValue,
+					final IFigure refreshableFigure) {
+				BinaryFigure figure = (BinaryFigure) refreshableFigure;
+				figure.setLabel2((String) newValue);
+				return true;
+			}
+		};
+		setPropertyChangeHandler(BinaryModel.PROP_LABEL_2, handler);
+
+		// fail label
+		handler = new IWidgetPropertyChangeHandler() {
+			public boolean handleChange(final Object oldValue,
+					final Object newValue,
+					final IFigure refreshableFigure) {
+				BinaryFigure figure = (BinaryFigure) refreshableFigure;
+				figure.setLabel3((String) newValue);
+				return true;
+			}
+		};
+		setPropertyChangeHandler(BinaryModel.PROP_LABEL_3, handler);
 
 		// off color
 		handler = new IWidgetPropertyChangeHandler() {
@@ -208,12 +156,48 @@ public class BinaryEditPart extends AbstractPVWidgetEditPart{
 					final Object newValue,
 					final IFigure refreshableFigure) {
 				BinaryFigure figure = (BinaryFigure) refreshableFigure;
-				figure.setOffColor(((OPIColor) newValue).getSWTColor());
+				figure.setColor0(((OPIColor) newValue).getSWTColor());
 				return true;
 			}
 		};
-		setPropertyChangeHandler(BinaryModel.PROP_OFF_COLOR, handler);
+		setPropertyChangeHandler(BinaryModel.PROP_COLOR_0, handler);
 		
+		// on color
+		handler = new IWidgetPropertyChangeHandler() {
+			public boolean handleChange(final Object oldValue,
+					final Object newValue,
+					final IFigure refreshableFigure) {
+				BinaryFigure figure = (BinaryFigure) refreshableFigure;
+				figure.setColor1(((OPIColor) newValue).getSWTColor());
+				return true;
+			}
+		};
+		setPropertyChangeHandler(BinaryModel.PROP_COLOR_1, handler);
+
+		// diff color
+		handler = new IWidgetPropertyChangeHandler() {
+			public boolean handleChange(final Object oldValue,
+					final Object newValue,
+					final IFigure refreshableFigure) {
+				BinaryFigure figure = (BinaryFigure) refreshableFigure;
+				figure.setColor2(((OPIColor) newValue).getSWTColor());
+				return true;
+			}
+		};
+		setPropertyChangeHandler(BinaryModel.PROP_COLOR_2, handler);
+
+		// fail color
+		handler = new IWidgetPropertyChangeHandler() {
+			public boolean handleChange(final Object oldValue,
+					final Object newValue,
+					final IFigure refreshableFigure) {
+				BinaryFigure figure = (BinaryFigure) refreshableFigure;
+				figure.setColor3(((OPIColor) newValue).getSWTColor());
+				return true;
+			}
+		};
+		setPropertyChangeHandler(BinaryModel.PROP_COLOR_3, handler);
+
 		//effect 3D
 		handler = new IWidgetPropertyChangeHandler() {
 			public boolean handleChange(final Object oldValue,
@@ -232,7 +216,7 @@ public class BinaryEditPart extends AbstractPVWidgetEditPart{
 					final Object newValue,
 					final IFigure refreshableFigure) {
 				BinaryFigure Binary = (BinaryFigure) refreshableFigure;
-				Binary.setSquareLED((Boolean) newValue);
+				Binary.setBinaryAuto((Boolean) newValue);
 				if(!(Boolean)newValue){
 					int width = Math.min(getWidgetModel().getWidth(), getWidgetModel().getHeight());
 					getWidgetModel().setSize(width, width);
@@ -240,13 +224,13 @@ public class BinaryEditPart extends AbstractPVWidgetEditPart{
 				return true;
 			}
 		};
-		setPropertyChangeHandler(BinaryModel.PROP_SQUARE_LED, handler);	
+		setPropertyChangeHandler(BinaryModel.PROP_BINARY_AUTO, handler);	
 		
 		//force square size
 		final IWidgetPropertyChangeHandler sizeHandler = new IWidgetPropertyChangeHandler() {
 			
 			public boolean handleChange(Object oldValue, Object newValue, IFigure figure) {
-				if(getWidgetModel().isSquareLED())
+				if(getWidgetModel().isBinaryAuto())
 					return false;
 				if(((Integer)newValue) < BinaryModel.MINIMUM_SIZE)
 					newValue = BinaryModel.MINIMUM_SIZE;			
@@ -275,14 +259,14 @@ public class BinaryEditPart extends AbstractPVWidgetEditPart{
 		if(value instanceof Number)
 			((BinaryFigure)getFigure()).setValue(((Number)value).doubleValue());
 		else if (value instanceof Boolean)
-			((BinaryFigure)getFigure()).setBooleanValue((Boolean)value);
+			((BinaryFigure)getFigure()).setIntValue((int)value);
 		else 
 			super.setValue(value);
 	}
 
 	@Override
-	public Boolean getValue() {
-		return ((BinaryFigure)getFigure()).getBooleanValue();
+	public Integer getValue() {
+		return ((BinaryFigure)getFigure()).getIntValue();
 	}
 	/**
 	 * @param newValue
@@ -292,24 +276,6 @@ public class BinaryEditPart extends AbstractPVWidgetEditPart{
 			BinaryFigure figure) {
 		if(newValue == null)
 			return;
-		if(getWidgetModel().getDataType() == 0)
-			figure.setValue(VTypeHelper.getDouble(newValue));
-		else {
-			if(VTypeHelper.getString(newValue).equals(
-					getWidgetModel().getOnState()))
-				figure.setValue(1);
-			else
-				figure.setValue(0);
-		}
-	}
-
-	private void updatePropSheet(final int dataType) {
-		getWidgetModel().setPropertyVisible(
-				BinaryModel.PROP_BIT, dataType == 0);
-		getWidgetModel().setPropertyVisible(
-				BinaryModel.PROP_ON_STATE, dataType == 1);
-		getWidgetModel().setPropertyVisible(
-				BinaryModel.PROP_OFF_STATE, dataType == 1);
-
+		figure.setValue(VTypeHelper.getDouble(newValue));
 	}
 }

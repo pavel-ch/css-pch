@@ -1,5 +1,7 @@
 package org.csstudio.pch.widgets;
 
+import java.util.logging.Logger;
+
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
@@ -14,6 +16,8 @@ public class Activator extends AbstractUIPlugin {
 	// The shared instance
 	private static Activator plugin;
 	
+	final private static Logger logger = Logger.getLogger(PLUGIN_ID);
+
 	/**
 	 * The constructor
 	 */
@@ -47,4 +51,8 @@ public class Activator extends AbstractUIPlugin {
 		return plugin;
 	}
 
+	/** @return Logger for plugin ID */
+	public static Logger getLogger() {
+	    return logger;
+	}
 }

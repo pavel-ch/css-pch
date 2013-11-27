@@ -11,7 +11,6 @@ import org.csstudio.opibuilder.model.AbstractPVWidgetModel;
 import org.csstudio.opibuilder.properties.BooleanProperty;
 import org.csstudio.opibuilder.properties.ColorProperty;
 import org.csstudio.opibuilder.properties.ComboProperty;
-import org.csstudio.opibuilder.properties.IntegerProperty;
 import org.csstudio.opibuilder.properties.StringProperty;
 import org.csstudio.opibuilder.properties.WidgetPropertyCategory;
 import org.csstudio.pch.widgets.BinaryFigure.BinaryLabelPosition;
@@ -25,61 +24,64 @@ import org.eclipse.swt.graphics.RGB;
  */
 public class BinaryModel extends AbstractPVWidgetModel {
 	
-	/** Bit of the PV to be read and controlled. Set to -1 will write value 0/1 to the PV. */
-	public static final String PROP_BIT = "bit"; //$NON-NLS-1$		
+	/** Label text when boolean widget is off. */
+	public static final String PROP_LABEL_0 = "label_0"; //$NON-NLS-1$
 	
 	/** Label text when boolean widget is on. */
-	public static final String PROP_ON_LABEL = "on_label"; //$NON-NLS-1$
+	public static final String PROP_LABEL_1 = "label_1"; //$NON-NLS-1$
 	
-	/** Label text when boolean widget is off. */
-	public static final String PROP_OFF_LABEL = "off_label"; //$NON-NLS-1$
+	/** Label text when boolean widget is dif. */
+	public static final String PROP_LABEL_2 = "label_2"; //$NON-NLS-1$
 	
-	/** Widget color when boolean widget is on. */
-	public static final String PROP_ON_COLOR = "on_color"; //$NON-NLS-1$
+	/** Label text when boolean widget is fail. */
+	public static final String PROP_LABEL_3 = "label_3"; //$NON-NLS-1$
 	
 	/** Widget color when boolean widget is off. */
-	public static final String PROP_OFF_COLOR = "off_color"; //$NON-NLS-1$
+	public static final String PROP_COLOR_0 = "color_0"; //$NON-NLS-1$
+	
+	/** Widget color when boolean widget is on. */
+	public static final String PROP_COLOR_1 = "color_1"; //$NON-NLS-1$
+	
+	/** Widget color when boolean widget is on. */
+	public static final String PROP_COLOR_2 = "color_2"; //$NON-NLS-1$
+	
+	/** Widget color when boolean widget is on. */
+	public static final String PROP_COLOR_3 = "color_3"; //$NON-NLS-1$
 	
 	/** True if the boolean label should be visible. */
-	public static final String PROP_SHOW_BOOL_LABEL = "show_boolean_label"; //$NON-NLS-1$
+	public static final String PROP_BINARY_SHOW_LABEL = "binary_show_label"; //$NON-NLS-1$
 	
-	public static final String PROP_BOOL_LABEL_POS = "boolean_label_position"; //$NON-NLS-1$
-	
-	
-	/**Data type to be operated by this widget, could be Bit or Enum. If it is Bit, the widget
-	 * will write 0/1 to the corresponding bit of the PV. If it is ENUM, it will write On State/Off State 
-	 * property value to the PV.*/
-	public static final String PROP_DATA_TYPE = "data_type"; //$NON-NLS-1$
-	
-	/**If data type is Enum, it is the string value which will be written 
-	 * to the PV when widget is on. */
-	public static final String PROP_ON_STATE = "on_state"; //$NON-NLS-1$
-	
-	/**If data type is Enum, it is the string value which will be written 
-	 * to the PV when widget is off. */
-	public static final String PROP_OFF_STATE = "off_state"; //$NON-NLS-1$
+	public static final String PROP_BINARY_LABEL_POS = "binary_label_position"; //$NON-NLS-1$
 	
 	/** The default color of the on color property. */
-	private static final RGB DEFAULT_ON_COLOR = new RGB(0,255,0);
+	private static final RGB DEFAULT_COLOR_1 = new RGB(0,255,0);
+	/** The default color of the on color property. */
+	private static final RGB DEFAULT_COLOR_2 = new RGB(255,255,0);
+	/** The default color of the on color property. */
+	private static final RGB DEFAULT_COLOR_3 = new RGB(255,0,0);
 	/** The default color of the off color property. */
-	private static final RGB DEFAULT_OFF_COLOR = new RGB(0, 100 ,0);
+	private static final RGB DEFAULT_COLOR_0 = new RGB(0, 100 ,0);
 	
-	/** The default string of the on label property. */
-	private static final String DEFAULT_ON_LABEL = "ON";
 	/** The default string of the off label property. */
-	private static final String DEFAULT_OFF_LABEL = "OFF";
+	private static final String DEFAULT_LABEL_0 = "OFF";
+	/** The default string of the on label property. */
+	private static final String DEFAULT_LABEL_1 = "ON";
+	/** The default string of the on label property. */
+	private static final String DEFAULT_LABEL_2 = "DIFF";
+	/** The default string of the on label property. */
+	private static final String DEFAULT_LABEL_3 = "FAIL";
 	/** The ID of the effect 3D property. */
 	public static final String PROP_EFFECT3D = "effect_3d"; //$NON-NLS-1$
 	
 	/** The ID of the square LED property. */
-	public static final String PROP_SQUARE_LED = "square_led"; //$NON-NLS-1$
+	public static final String PROP_BINARY_AUTO = "binary_auto"; //$NON-NLS-1$
 	
 	
 	/** The default value of the height property. */	
 	private static final int DEFAULT_HEIGHT = 20;
 	
 	/** The default value of the width property. */
-	private static final int DEFAULT_WIDTH = 20;
+	private static final int DEFAULT_WIDTH = 40;
 	
 	public static final int MINIMUM_SIZE = 10;
 
@@ -91,33 +93,33 @@ public class BinaryModel extends AbstractPVWidgetModel {
 	
 	@Override
 	protected void configureProperties() {
-		addProperty(new IntegerProperty(PROP_BIT, "Bit",
-				WidgetPropertyCategory.Behavior, -1, -1, 63));		
-		addProperty(new BooleanProperty(PROP_SHOW_BOOL_LABEL, "Show Boolean Label",
-				WidgetPropertyCategory.Display,false));		
-		addProperty(new StringProperty(PROP_ON_LABEL, "On Label",
-				WidgetPropertyCategory.Display, DEFAULT_ON_LABEL));	
-		addProperty(new StringProperty(PROP_OFF_LABEL, "Off Label",
-				WidgetPropertyCategory.Display, DEFAULT_OFF_LABEL));	
-		addProperty(new ColorProperty(PROP_ON_COLOR, "On Color",
-				WidgetPropertyCategory.Display, DEFAULT_ON_COLOR));
-		addProperty(new ColorProperty(PROP_OFF_COLOR, "Off Color",
-				WidgetPropertyCategory.Display, DEFAULT_OFF_COLOR));		
-		addProperty(new ComboProperty(PROP_DATA_TYPE, "Data Type",
-				WidgetPropertyCategory.Behavior, new String[]{"Bit", "Enum"}, 0));
-		addProperty(new StringProperty(PROP_ON_STATE, "On State", 
-				WidgetPropertyCategory.Behavior, ""));
-		addProperty(new StringProperty(PROP_OFF_STATE, "Off State",
-				WidgetPropertyCategory.Behavior, ""));
-		addProperty(new ComboProperty(PROP_BOOL_LABEL_POS, "Boolean Label Position", 
+		addProperty(new BooleanProperty(PROP_BINARY_SHOW_LABEL, "Show Label",
+				WidgetPropertyCategory.Display, true));		
+		addProperty(new StringProperty(PROP_LABEL_0, "Label 0",
+				WidgetPropertyCategory.Display, DEFAULT_LABEL_0));	
+		addProperty(new StringProperty(PROP_LABEL_1, "Label 1",
+				WidgetPropertyCategory.Display, DEFAULT_LABEL_1));	
+		addProperty(new StringProperty(PROP_LABEL_2, "Label 2",
+				WidgetPropertyCategory.Display, DEFAULT_LABEL_2));	
+		addProperty(new StringProperty(PROP_LABEL_3, "Label 3",
+				WidgetPropertyCategory.Display, DEFAULT_LABEL_3));	
+		addProperty(new ColorProperty(PROP_COLOR_0, "Color 0",
+				WidgetPropertyCategory.Display, DEFAULT_COLOR_0));		
+		addProperty(new ColorProperty(PROP_COLOR_1, "Color 1",
+				WidgetPropertyCategory.Display, DEFAULT_COLOR_1));
+		addProperty(new ColorProperty(PROP_COLOR_2, "Color 2",
+				WidgetPropertyCategory.Display, DEFAULT_COLOR_2));
+		addProperty(new ColorProperty(PROP_COLOR_3, "Color 3",
+				WidgetPropertyCategory.Display, DEFAULT_COLOR_3));
+		addProperty(new ComboProperty(PROP_BINARY_LABEL_POS, "Label Position", 
 				WidgetPropertyCategory.Display, BinaryLabelPosition.stringValues(), 0));
 		
 		addProperty(new BooleanProperty(PROP_EFFECT3D, "3D Effect", 
 				WidgetPropertyCategory.Display, true));
 		
-		addProperty(new BooleanProperty(PROP_SQUARE_LED, "Square LED", 
+		addProperty(new BooleanProperty(PROP_BINARY_AUTO, "Automatic colors (script)", 
 				WidgetPropertyCategory.Display, false));
-		setPropertyVisible(PROP_BOOL_LABEL_POS, false);
+		//setPropertyVisible(PROP_BINARY_LABEL_POS, false);
 	}
 	/**
 	 * The ID of this widget model.
@@ -130,63 +132,68 @@ public class BinaryModel extends AbstractPVWidgetModel {
 	}
 
 	/**
-	 * @return the bit. If bit is -1, the value channel must be enum, otherwise, 
-	 * it must be numeric value 
-	 */
-	public Integer getBit() {
-		return (Integer) getProperty(PROP_BIT).getPropertyValue();
-	}
-
-
-	/**
-	 * @return the on label
-	 */
-	public String getOnLabel() {
-		return (String) getProperty(PROP_ON_LABEL).getPropertyValue();
-	}
-
-	/**
 	 * @return the off label
 	 */
-	public String getOffLabel() {
-		return (String) getProperty(PROP_OFF_LABEL).getPropertyValue();
+	public String getLabel0() {
+		return (String) getProperty(PROP_LABEL_0).getPropertyValue();
 	}
 	
 	/**
-	 * @return the on color
+	 * @return the on label
 	 */
-	public Color getOnColor() {
-		return getSWTColorFromColorProperty(PROP_ON_COLOR);
-	}	
+	public String getLabel1() {
+		return (String) getProperty(PROP_LABEL_1).getPropertyValue();
+	}
+	
+	/**
+	 * @return the diff label
+	 */
+	public String getLabel2() {
+		return (String) getProperty(PROP_LABEL_2).getPropertyValue();
+	}
+	
+	/**
+	 * @return the fail label
+	 */
+	public String getLabel3() {
+		return (String) getProperty(PROP_LABEL_3).getPropertyValue();
+	}
+
 	/**
 	 * @return the off color
 	 */
-	public Color getOffColor() {
-		return getSWTColorFromColorProperty(PROP_OFF_COLOR);
+	public Color getColor0() {
+		return getSWTColorFromColorProperty(PROP_COLOR_0);
+	}	
+	/**
+	 * @return the on color
+	 */
+	public Color getColor1() {
+		return getSWTColorFromColorProperty(PROP_COLOR_1);
+	}	
+	/**
+	 * @return the on color
+	 */
+	public Color getColor2() {
+		return getSWTColorFromColorProperty(PROP_COLOR_2);
+	}	
+	/**
+	 * @return the on color
+	 */
+	public Color getColor3() {
+		return getSWTColorFromColorProperty(PROP_COLOR_3);
 	}	
 	
 	/**
 	 * @return true if the boolean label should be shown, false otherwise
 	 */
-	public boolean isShowBoolLabel() {
-		return (Boolean) getProperty(PROP_SHOW_BOOL_LABEL).getPropertyValue();
+	public boolean isShowBinLabel() {
+		return (Boolean) getProperty(PROP_BINARY_SHOW_LABEL).getPropertyValue();
 	}
 	
-	public int getDataType(){
-		return (Integer)getPropertyValue(PROP_DATA_TYPE);
-	}
-	
-	public String getOnState(){
-		return (String)getPropertyValue(PROP_ON_STATE);
-	}
-	
-	public String getOffState(){
-		return (String)getPropertyValue(PROP_OFF_STATE);
-	}
-	
-	public BinaryLabelPosition getBoolLabelPosition(){
+	public BinaryLabelPosition getBinLabelPosition(){
 		return BinaryLabelPosition.values()
-				[(Integer)getPropertyValue(PROP_BOOL_LABEL_POS)];
+				[(Integer)getPropertyValue(PROP_BINARY_LABEL_POS)];
 	}
 	
 	/**
@@ -197,9 +204,9 @@ public class BinaryModel extends AbstractPVWidgetModel {
 	}
 	
 	/**
-	 * @return true if the LED is square, false otherwise
+	 * @return true if the Binary is automatic, false otherwise
 	 */
-	public boolean isSquareLED() {
-		return (Boolean) getProperty(PROP_SQUARE_LED).getPropertyValue();
+	public boolean isBinaryAuto() {
+		return (Boolean) getProperty(PROP_BINARY_AUTO).getPropertyValue();
 	}
 }
