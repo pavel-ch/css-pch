@@ -48,6 +48,18 @@ public class BinaryModel extends AbstractPVWidgetModel {
 	/** Widget color when boolean widget is on. */
 	public static final String PROP_COLOR_3 = "color_3"; //$NON-NLS-1$
 	
+	/** Widget color when boolean widget is off. */
+	public static final String PROP_COLORF_0 = "fore_color_0"; //$NON-NLS-1$
+	
+	/** Widget color when boolean widget is on. */
+	public static final String PROP_COLORF_1 = "fore_color_1"; //$NON-NLS-1$
+	
+	/** Widget color when boolean widget is on. */
+	public static final String PROP_COLORF_2 = "fore_color_2"; //$NON-NLS-1$
+	
+	/** Widget color when boolean widget is on. */
+	public static final String PROP_COLORF_3 = "fore_color_3"; //$NON-NLS-1$
+	
 	/** True if the boolean label should be visible. */
 	public static final String PROP_BINARY_SHOW_LABEL = "binary_show_label"; //$NON-NLS-1$
 	
@@ -61,6 +73,15 @@ public class BinaryModel extends AbstractPVWidgetModel {
 	private static final RGB DEFAULT_COLOR_3 = new RGB(255,0,0);
 	/** The default color of the off color property. */
 	private static final RGB DEFAULT_COLOR_0 = new RGB(0, 100 ,0);
+	
+	/** The default color of the on color property. */
+	private static final RGB DEFAULT_COLORF_1 = new RGB(0,0,0);
+	/** The default color of the on color property. */
+	private static final RGB DEFAULT_COLORF_2 = new RGB(0,0,0);
+	/** The default color of the on color property. */
+	private static final RGB DEFAULT_COLORF_3 = new RGB(255,255,0);
+	/** The default color of the off color property. */
+	private static final RGB DEFAULT_COLORF_0 = new RGB(0, 0 ,0);
 	
 	/** The default string of the off label property. */
 	private static final String DEFAULT_LABEL_0 = "OFF";
@@ -103,14 +124,22 @@ public class BinaryModel extends AbstractPVWidgetModel {
 				WidgetPropertyCategory.Display, DEFAULT_LABEL_2));	
 		addProperty(new StringProperty(PROP_LABEL_3, "Label 3",
 				WidgetPropertyCategory.Display, DEFAULT_LABEL_3));	
-		addProperty(new ColorProperty(PROP_COLOR_0, "Color 0",
+		addProperty(new ColorProperty(PROP_COLOR_0, "Color Background 0",
 				WidgetPropertyCategory.Display, DEFAULT_COLOR_0));		
-		addProperty(new ColorProperty(PROP_COLOR_1, "Color 1",
+		addProperty(new ColorProperty(PROP_COLOR_1, "Color Background 1",
 				WidgetPropertyCategory.Display, DEFAULT_COLOR_1));
-		addProperty(new ColorProperty(PROP_COLOR_2, "Color 2",
+		addProperty(new ColorProperty(PROP_COLOR_2, "Color Background 2",
 				WidgetPropertyCategory.Display, DEFAULT_COLOR_2));
-		addProperty(new ColorProperty(PROP_COLOR_3, "Color 3",
+		addProperty(new ColorProperty(PROP_COLOR_3, "Color Background 3",
 				WidgetPropertyCategory.Display, DEFAULT_COLOR_3));
+		addProperty(new ColorProperty(PROP_COLORF_0, "Color Foreground 0",
+				WidgetPropertyCategory.Display, DEFAULT_COLORF_0));		
+		addProperty(new ColorProperty(PROP_COLORF_1, "Color Foreground 1",
+				WidgetPropertyCategory.Display, DEFAULT_COLORF_1));
+		addProperty(new ColorProperty(PROP_COLORF_2, "Color Foreground 2",
+				WidgetPropertyCategory.Display, DEFAULT_COLORF_2));
+		addProperty(new ColorProperty(PROP_COLORF_3, "Color Foreground 3",
+				WidgetPropertyCategory.Display, DEFAULT_COLORF_3));
 		addProperty(new ComboProperty(PROP_BINARY_LABEL_POS, "Label Position", 
 				WidgetPropertyCategory.Display, BinaryLabelPosition.stringValues(), 0));
 		
@@ -182,6 +211,31 @@ public class BinaryModel extends AbstractPVWidgetModel {
 	 */
 	public Color getColor3() {
 		return getSWTColorFromColorProperty(PROP_COLOR_3);
+	}	
+	
+	/**
+	 * @return the off color
+	 */
+	public Color getColor0F() {
+		return getSWTColorFromColorProperty(PROP_COLORF_0);
+	}	
+	/**
+	 * @return the on color
+	 */
+	public Color getColor1F() {
+		return getSWTColorFromColorProperty(PROP_COLORF_1);
+	}	
+	/**
+	 * @return the on color
+	 */
+	public Color getColor2F() {
+		return getSWTColorFromColorProperty(PROP_COLORF_2);
+	}	
+	/**
+	 * @return the on color
+	 */
+	public Color getColor3F() {
+		return getSWTColorFromColorProperty(PROP_COLORF_3);
 	}	
 	
 	/**

@@ -40,8 +40,8 @@ public class BinaryFigure extends Figure implements Introspectable {
 	//Bulb bulb; 
 //	private final static int OUTLINE_WIDTH = 2;
 	private final static int SQURE_BORDER_WIDTH = 1;
-	private final static Color DARK_GRAY_COLOR = CustomMediaFactory.getInstance().getColor(
-			CustomMediaFactory.COLOR_DARK_GRAY); 
+	//private final static Color DARK_GRAY_COLOR = CustomMediaFactory.getInstance().getColor(
+	//		CustomMediaFactory.COLOR_DARK_GRAY); 
 	private final static Color WHITE_COLOR = CustomMediaFactory.getInstance().getColor(
 			CustomMediaFactory.COLOR_WHITE); 
 	private final static Color BLACK_COLOR = CustomMediaFactory.getInstance().getColor(
@@ -56,18 +56,9 @@ public class BinaryFigure extends Figure implements Introspectable {
 			}
 		};
 		binLabel.setVisible(showBinaryLabel);
-		//bulb = new Bulb();		
 		setLayoutManager(new XYLayout());
-		//add(bulb);
 		add(binLabel);
-		//bulb.setBulbColor(booleanValue ? onColor : offColor);		
 	}
-	
-/*	public enum TotalBits {
-		BITS_16,
-		BITS_32,
-		BITS_64
-	}*/
 	
 	public enum BinaryLabelPosition{
 		
@@ -130,6 +121,18 @@ public class BinaryFigure extends Figure implements Introspectable {
 
 	protected Color Color3 = CustomMediaFactory.getInstance().getColor(
 			CustomMediaFactory.COLOR_RED);
+
+	protected Color Color0F = CustomMediaFactory.getInstance().getColor(
+			CustomMediaFactory.COLOR_BLACK);
+
+	protected Color Color1F = CustomMediaFactory.getInstance().getColor(
+			CustomMediaFactory.COLOR_BLACK);
+
+	protected Color Color2F = CustomMediaFactory.getInstance().getColor(
+			CustomMediaFactory.COLOR_BLACK);
+
+	protected Color Color3F = CustomMediaFactory.getInstance().getColor(
+			CustomMediaFactory.COLOR_YELLOW);
 
 	private Point labelLocation;
 
@@ -214,6 +217,9 @@ public class BinaryFigure extends Figure implements Introspectable {
 	public Color getColor0() {
 		return Color0;
 	}
+	public Color getColor0F() {
+		return Color0F;
+	}
 
 
 
@@ -230,6 +236,9 @@ public class BinaryFigure extends Figure implements Introspectable {
 	public Color getColor1() {
 		return Color1;
 	}
+	public Color getColor1F() {
+		return Color1F;
+	}
 
 	/**
 	 * @return the onLabel
@@ -244,6 +253,9 @@ public class BinaryFigure extends Figure implements Introspectable {
 	public Color getColor2() {
 		return Color2;
 	}
+	public Color getColor2F() {
+		return Color2F;
+	}
 
 	/**
 	 * @return the diffLabel
@@ -257,6 +269,9 @@ public class BinaryFigure extends Figure implements Introspectable {
 	 */
 	public Color getColor3() {
 		return Color3;
+	}
+	public Color getColor3F() {
+		return Color3F;
 	}
 
 	/**
@@ -424,9 +439,29 @@ public class BinaryFigure extends Figure implements Introspectable {
 	
 	@Override
 	protected void paintClientArea(Graphics graphics) {	
+		Color fillColor;
+		Color fontColor;
+
 		graphics.pushState();
 		graphics.setAntialias(SWT.ON);		
 		Rectangle clientArea = getClientArea().getCopy();
+		if (binaryAuto) {
+			fillColor = getBackgroundColor();
+			fontColor = getForegroundColor();
+		}
+		else
+		{
+			if (intValue == 0) { fillColor = Color0; fontColor = Color0F; }
+			else if (intValue == 1) { fillColor = Color1; fontColor = Color1F; }
+			else if (intValue == 2) { fillColor = Color2; fontColor = Color2F; }
+			else { fillColor = Color3; fontColor = Color3F; }
+		}
+		
+		if(binLabel.isVisible())
+		{
+			binLabel.setForegroundColor(fontColor);
+		}
+		
 		boolean support3D = GraphicsUtil.testPatternSupported(graphics);
 			if(effect3D && support3D){
 				//draw up border			
@@ -477,11 +512,6 @@ public class BinaryFigure extends Figure implements Introspectable {
 				
 				//draw light
 				clientArea.shrink(SQURE_BORDER_WIDTH, SQURE_BORDER_WIDTH);
-				Color fillColor;
-				if (intValue == 0) fillColor = Color0;
-				else if (intValue == 1) fillColor = Color1;
-				else if (intValue == 2) fillColor = Color2;
-				else fillColor = Color3;
 		        graphics.setBackgroundColor(fillColor);
 		        graphics.fillRectangle(clientArea);
 				pattern = GraphicsUtil.createScaledPattern(graphics, Display.getCurrent(), clientArea.x,	clientArea.y,
@@ -499,12 +529,8 @@ public class BinaryFigure extends Figure implements Introspectable {
 				graphics.drawRectangle(clientArea);
 				
 				clientArea.shrink(SQURE_BORDER_WIDTH/2, SQURE_BORDER_WIDTH/2);
-				Color fillColor;
-				if (intValue == 0) fillColor = Color0;
-				else if (intValue == 1) fillColor = Color1;
-				else if (intValue == 2) fillColor = Color2;
-				else fillColor = Color3;
-		        graphics.setBackgroundColor(fillColor);
+
+				graphics.setBackgroundColor(fillColor);
 		        graphics.fillRectangle(clientArea);
 			}
 			
@@ -547,6 +573,34 @@ public class BinaryFigure extends Figure implements Introspectable {
 		if(this.Color3 != null && this.Color3.equals(Color))
 			return;
 		this.Color3 = Color;
+		repaint();
+	}
+
+	public void setColor0F(Color offColor) {
+		if(this.Color0F != null && this.Color0F.equals(offColor))
+			return;
+		this.Color0F = offColor;
+		repaint();
+	}
+
+	public void setColor1F(Color onColor) {
+		if(this.Color1F != null && this.Color1F.equals(onColor))
+			return;
+		this.Color1F = onColor;
+		repaint();
+	}
+
+	public void setColor2F(Color Color) {
+		if(this.Color2F != null && this.Color2F.equals(Color))
+			return;
+		this.Color2F = Color;
+		repaint();
+	}
+
+	public void setColor3F(Color Color) {
+		if(this.Color3F != null && this.Color3F.equals(Color))
+			return;
+		this.Color3F = Color;
 		repaint();
 	}
 
