@@ -148,7 +148,10 @@ public class BinaryModel extends AbstractPVWidgetModel {
 		
 		addProperty(new BooleanProperty(PROP_BINARY_AUTO, "Automatic colors (script)", 
 				WidgetPropertyCategory.Display, false));
-		//setPropertyVisible(PROP_BINARY_LABEL_POS, false);
+		
+		setPropertyVisibleAndSavable(PROP_BACKCOLOR_ALARMSENSITIVE, false, false);
+		setPropertyVisibleAndSavable(PROP_FORECOLOR_ALARMSENSITIVE, false, false);
+		setPropertyVisibleAndSavable(PROP_BORDER_ALARMSENSITIVE, false, false);
 	}
 	/**
 	 * The ID of this widget model.

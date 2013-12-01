@@ -7,12 +7,12 @@
  ******************************************************************************/
 package org.csstudio.pch.widgets;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
+//import java.beans.PropertyChangeEvent;
+//import java.beans.PropertyChangeListener;
 
 import org.csstudio.opibuilder.editparts.AbstractPVWidgetEditPart;
 import org.csstudio.opibuilder.model.AbstractPVWidgetModel;
-import org.csstudio.opibuilder.model.AbstractWidgetModel;
+//import org.csstudio.opibuilder.model.AbstractWidgetModel;
 import org.csstudio.opibuilder.properties.IWidgetPropertyChangeHandler;
 import org.csstudio.opibuilder.util.OPIColor;
 import org.csstudio.pch.widgets.BinaryFigure;
@@ -264,10 +264,10 @@ public class BinaryEditPart extends AbstractPVWidgetEditPart{
 					final IFigure refreshableFigure) {
 				BinaryFigure Binary = (BinaryFigure) refreshableFigure;
 				Binary.setBinaryAuto((Boolean) newValue);
-				if(!(Boolean)newValue){
+				/*if(!(Boolean)newValue){
 					int width = Math.min(getWidgetModel().getWidth(), getWidgetModel().getHeight());
 					getWidgetModel().setSize(width, width);
-				}
+				}*/
 				return true;
 			}
 		};

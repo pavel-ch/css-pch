@@ -546,6 +546,7 @@ public class BinaryFigure extends Figure implements Introspectable {
 		if(this.effect3D == effect3D)
 			return;
 		this.effect3D = effect3D;
+		repaint();
 	}
 	
 	public void setColor0(Color offColor) {
@@ -611,6 +612,7 @@ public class BinaryFigure extends Figure implements Introspectable {
 		if(this.binaryAuto == binAuto)
 			return;
 		this.binaryAuto = binAuto;
+		repaint();
 	}
 
 	protected void updateIntValue() {
@@ -620,7 +622,6 @@ public class BinaryFigure extends Figure implements Introspectable {
 		if(intValue == 0) binLabel.setText(Label0);
 		else if(intValue == 1) binLabel.setText(Label1);
 		else if(intValue == 2) binLabel.setText(Label2);
-		else if(intValue == 3) binLabel.setText(Label3);
 		else binLabel.setText(Label3);
 	}
 }
