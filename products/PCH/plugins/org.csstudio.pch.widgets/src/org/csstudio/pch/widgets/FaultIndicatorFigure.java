@@ -35,7 +35,7 @@ import org.eclipse.swt.widgets.Display;
  * @author Xihui Chen
  *
  */
-public class BinaryFigure extends Figure implements Introspectable {
+public class FaultIndicatorFigure extends Figure implements Introspectable {
 
 	//Bulb bulb; 
 //	private final static int OUTLINE_WIDTH = 2;
@@ -47,20 +47,20 @@ public class BinaryFigure extends Figure implements Introspectable {
 	private final static Color BLACK_COLOR = CustomMediaFactory.getInstance().getColor(
 			CustomMediaFactory.COLOR_BLACK); 
 	private boolean effect3D = true;
-	private boolean binaryAuto = false;
-	public BinaryFigure() {
-		binLabel = new Label(Label0){
+	private boolean FaultIndicatorAuto = false;
+	public FaultIndicatorFigure() {
+		binLabel = new Label(Label){
 			@Override
 			public boolean containsPoint(int x, int y) {
 				return false;
 			}
 		};
-		binLabel.setVisible(showBinaryLabel);
+		binLabel.setVisible(showFaultIndicatorLabel);
 		setLayoutManager(new XYLayout());
 		add(binLabel);
 	}
 	
-	public enum BinaryLabelPosition{
+	public enum FaultIndicatorLabelPosition{
 		
 		DEFAULT("Default"),				
 		TOP("Top"),	
@@ -76,13 +76,13 @@ public class BinaryFigure extends Figure implements Introspectable {
 		public static String[] stringValues(){
 			String[] result = new String[values().length];
 			int i=0;
-			for(BinaryLabelPosition h : values()){
+			for(FaultIndicatorLabelPosition h : values()){
 				result[i++] = h.toString();
 			}
 			return result;
 		}
 		String descripion;
-		BinaryLabelPosition(String description){
+		FaultIndicatorLabelPosition(String description){
 			this.descripion = description;
 		}
 		
@@ -96,19 +96,13 @@ public class BinaryFigure extends Figure implements Introspectable {
 
 	protected long value = 0;
 
-	protected boolean showBinaryLabel = false;
+	protected boolean showFaultIndicatorLabel = false;
 
 	protected int intValue = 0;
 
-	protected String Label0 = "OFF";
+	protected String Label = "OFF";
 	
-	protected String Label1 = "ON";
-
-	protected String Label2 = "DIFF";
-
-	protected String Label3 = "FAIL";
-
-	protected BinaryLabelPosition binLabelPosition = BinaryLabelPosition.DEFAULT;
+	protected FaultIndicatorLabelPosition binLabelPosition = FaultIndicatorLabelPosition.DEFAULT;
 
 	protected Color Color0 = CustomMediaFactory.getInstance().getColor(
 			new RGB(0,128,0));
@@ -116,28 +110,10 @@ public class BinaryFigure extends Figure implements Introspectable {
 	protected Color Color1 = CustomMediaFactory.getInstance().getColor(
 			CustomMediaFactory.COLOR_GREEN);
 
-	protected Color Color2 = CustomMediaFactory.getInstance().getColor(
-			CustomMediaFactory.COLOR_YELLOW);
-
-	protected Color Color3 = CustomMediaFactory.getInstance().getColor(
-			CustomMediaFactory.COLOR_RED);
-
-	protected Color Color0F = CustomMediaFactory.getInstance().getColor(
-			CustomMediaFactory.COLOR_BLACK);
-
-	protected Color Color1F = CustomMediaFactory.getInstance().getColor(
-			CustomMediaFactory.COLOR_BLACK);
-
-	protected Color Color2F = CustomMediaFactory.getInstance().getColor(
-			CustomMediaFactory.COLOR_BLACK);
-
-	protected Color Color3F = CustomMediaFactory.getInstance().getColor(
-			CustomMediaFactory.COLOR_YELLOW);
-
 	private Point labelLocation;
 
 	protected void calculateLabelLocation(Point defaultLocation) {
-		if(binLabelPosition == BinaryLabelPosition.DEFAULT){
+		if(binLabelPosition == FaultIndicatorLabelPosition.DEFAULT){
 			labelLocation =  defaultLocation;
 			return;
 		}
@@ -207,7 +183,7 @@ public class BinaryFigure extends Figure implements Introspectable {
 		return labelLocation;
 	}
 	
-	public BinaryLabelPosition getBinLabelPosition() {
+	public FaultIndicatorLabelPosition getBinLabelPosition() {
 		return binLabelPosition;
 	}
 
@@ -217,17 +193,12 @@ public class BinaryFigure extends Figure implements Introspectable {
 	public Color getColor0() {
 		return Color0;
 	}
-	public Color getColor0F() {
-		return Color0F;
-	}
-
-
 
 	/**
 	 * @return the offLabel
 	 */
 	public String getLabel0() {
-		return Label0;
+		return Label;
 	}
 
 	/**
@@ -235,50 +206,6 @@ public class BinaryFigure extends Figure implements Introspectable {
 	 */
 	public Color getColor1() {
 		return Color1;
-	}
-	public Color getColor1F() {
-		return Color1F;
-	}
-
-	/**
-	 * @return the onLabel
-	 */
-	public String getLabel1() {
-		return Label1;
-	}
-
-	/**
-	 * @return the diffColor
-	 */
-	public Color getColor2() {
-		return Color2;
-	}
-	public Color getColor2F() {
-		return Color2F;
-	}
-
-	/**
-	 * @return the diffLabel
-	 */
-	public String getLabel2() {
-		return Label2;
-	}
-
-	/**
-	 * @return the failColor
-	 */
-	public Color getColor3() {
-		return Color3;
-	}
-	public Color getColor3F() {
-		return Color3F;
-	}
-
-	/**
-	 * @return the failLabel
-	 */
-	public String getLabel3() {
-		return Label3;
 	}
 
 	/**
@@ -302,8 +229,8 @@ public class BinaryFigure extends Figure implements Introspectable {
 	/**
 	 * @return the showBooleanLabel
 	 */
-	public boolean isShowBinaryLabel() {
-		return showBinaryLabel;
+	public boolean isShowFaultIndicatorLabel() {
+		return showFaultIndicatorLabel;
 	}
 
 	public void setIntValue(int value){
@@ -326,7 +253,7 @@ public class BinaryFigure extends Figure implements Introspectable {
 		revalidate();
 	}
 	
-	public void setBinLabelPosition(BinaryLabelPosition labelPosition) {
+	public void setBinLabelPosition(FaultIndicatorLabelPosition labelPosition) {
 		this.binLabelPosition = labelPosition;
 		labelPosition = null;
 		revalidate();
@@ -336,55 +263,22 @@ public class BinaryFigure extends Figure implements Introspectable {
 	/**
 	 * @param Label the offLabel to set
 	 */
-	public void setLabel0(String Label) {
-		if(this.Label0 != null && this.Label0.equals(Label))
+	public void setLabel(String Label) {
+		if(this.Label != null && this.Label.equals(Label))
 			return;
-		this.Label0 = Label;
+		this.Label = Label;
 		if(intValue == 0)
 			binLabel.setText(Label);
 		
 	}
 
 	/**
-	 * @param Label the onLabel to set
-	 */
-	public void setLabel1(String Label) {
-		if(this.Label1 != null && this.Label1.equals(Label))
-			return;
-		this.Label1 = Label;
-		if(intValue == 1)
-			binLabel.setText(Label);
-	}
-
-	/**
-	 * @param Label the diffLabel to set
-	 */
-	public void setLabel2(String Label) {
-		if(this.Label2 != null && this.Label2.equals(Label))
-			return;
-		this.Label2 = Label;
-		if(intValue == 2)
-			binLabel.setText(Label);
-	}
-
-	/**
-	 * @param Label the failLabel to set
-	 */
-	public void setLabel3(String Label) {
-		if(this.Label3 != null && this.Label3.equals(Label))
-			return;
-		this.Label3 = Label;
-		if(intValue >= 3)
-			binLabel.setText(Label);
-	}
-
-	/**
 	 * @param showBooleanLabel the showBooleanLabel to set
 	 */
 	public void setShowBinLabel(boolean showBooleanLabel) {
-		if(this.showBinaryLabel == showBooleanLabel)
+		if(this.showFaultIndicatorLabel == showBooleanLabel)
 			return;
-		this.showBinaryLabel = showBooleanLabel;
+		this.showFaultIndicatorLabel = showBooleanLabel;
 		binLabel.setVisible(showBooleanLabel);
 	}
 
@@ -419,10 +313,10 @@ public class BinaryFigure extends Figure implements Introspectable {
 	}
 	
 	/**
-	 * @return the binaryAuto
+	 * @return the FaultIndicatorAuto
 	 */
-	public boolean isBinaryAuto() {
-		return binaryAuto;
+	public boolean isFaultIndicatorAuto() {
+		return FaultIndicatorAuto;
 	}
 	
 	@Override
@@ -449,16 +343,14 @@ public class BinaryFigure extends Figure implements Introspectable {
 		graphics.pushState();
 		graphics.setAntialias(SWT.ON);		
 		Rectangle clientArea = getClientArea().getCopy();
-		if (binaryAuto) {
+		fontColor = getForegroundColor();
+		if (FaultIndicatorAuto) {
 			fillColor = getBackgroundColor();
-			fontColor = getForegroundColor();
 		}
 		else
 		{
-			if (intValue == 0) { fillColor = Color0; fontColor = Color0F; }
-			else if (intValue == 1) { fillColor = Color1; fontColor = Color1F; }
-			else if (intValue == 2) { fillColor = Color2; fontColor = Color2F; }
-			else { fillColor = Color3; fontColor = Color3F; }
+			if (intValue == 0) { fillColor = Color0; }
+			else { fillColor = Color1; }
 		}
 		
 		if(binLabel.isVisible())
@@ -575,65 +467,17 @@ public class BinaryFigure extends Figure implements Introspectable {
 		repaint();
 	}
 
-	public void setColor2(Color Color) {
-		if(this.Color2 != null && this.Color2.equals(Color))
-			return;
-		this.Color2 = Color;
-		repaint();
-	}
-
-	public void setColor3(Color Color) {
-		if(this.Color3 != null && this.Color3.equals(Color))
-			return;
-		this.Color3 = Color;
-		repaint();
-	}
-
-	public void setColor0F(Color offColor) {
-		if(this.Color0F != null && this.Color0F.equals(offColor))
-			return;
-		this.Color0F = offColor;
-		repaint();
-	}
-
-	public void setColor1F(Color onColor) {
-		if(this.Color1F != null && this.Color1F.equals(onColor))
-			return;
-		this.Color1F = onColor;
-		repaint();
-	}
-
-	public void setColor2F(Color Color) {
-		if(this.Color2F != null && this.Color2F.equals(Color))
-			return;
-		this.Color2F = Color;
-		repaint();
-	}
-
-	public void setColor3F(Color Color) {
-		if(this.Color3F != null && this.Color3F.equals(Color))
-			return;
-		this.Color3F = Color;
-		repaint();
-	}
-
 	/**
 	 * @param binAuto the squareLED to set
 	 */
-	public void setBinaryAuto(boolean binAuto) {
-		if(this.binaryAuto == binAuto)
+	public void setFaultIndicatorAuto(boolean binAuto) {
+		if(this.FaultIndicatorAuto == binAuto)
 			return;
-		this.binaryAuto = binAuto;
+		this.FaultIndicatorAuto = binAuto;
 		repaint();
 	}
 
 	protected void updateIntValue() {
-		//get boolValue
 		intValue = (int)this.value;
-		//change boolLabel text
-		if(intValue == 0) binLabel.setText(Label0);
-		else if(intValue == 1) binLabel.setText(Label1);
-		else if(intValue == 2) binLabel.setText(Label2);
-		else binLabel.setText(Label3);
 	}
 }

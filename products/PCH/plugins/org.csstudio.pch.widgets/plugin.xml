@@ -5,11 +5,21 @@
          point="org.csstudio.opibuilder.widget">
       <widget
             category="ANDRITZ"
+            description="A widget that displays 0/1/2/3 values as colored labels. "
             editpart_class="org.csstudio.pch.widgets.BinaryEditPart"
-            icon="platform:/plugin/org.csstudio.pch.widgets/icons/LED.png"
+            icon="platform:/plugin/org.csstudio.pch.widgets/icons/Binary.png"
             model_class="org.csstudio.pch.widgets.BinaryModel"
             name="Binary"
             typeId="org.csstudio.pch.widgets.Binary">
+      </widget>
+      <widget
+            category="ANDRITZ"
+            description="A widget that displays 0/1 values as colored rectangle with a label. "
+            editpart_class="org.csstudio.pch.widgets.FaultIndicatorEditPart"
+            icon="platform:/plugin/org.csstudio.pch.widgets/icons/FaultIndicator.png"
+            model_class="org.csstudio.pch.widgets.FaultIndicatorModel"
+            name="FaultIndicator"
+            typeId="org.csstudio.pch.widgets.FaultIndicator">
       </widget>
    </extension>
 </plugin>
