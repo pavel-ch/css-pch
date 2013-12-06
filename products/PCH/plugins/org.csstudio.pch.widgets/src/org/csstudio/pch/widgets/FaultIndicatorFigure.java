@@ -63,15 +63,8 @@ public class FaultIndicatorFigure extends Figure implements Introspectable {
 	public enum FaultIndicatorLabelPosition{
 		
 		DEFAULT("Default"),				
-		TOP("Top"),	
 		LEFT("Left"),
-		CENTER("Center"),
-		RIGHT("Right"),
-		BOTTOM("Bottom"),
-		TOP_LEFT("Top Left"),
-		TOP_RIGHT("Top Right"),	
-		BOTTOM_LEFT("Bottom Left"),
-		BOTTOM_RIGHT("Bottom Right");
+		RIGHT("Right");
 		
 		public static String[] stringValues(){
 			String[] result = new String[values().length];
@@ -120,17 +113,13 @@ public class FaultIndicatorFigure extends Figure implements Introspectable {
 		Rectangle textArea = getClientArea();		
 		Dimension textSize = TextUtilities.INSTANCE.getTextExtents(
 				binLabel.getText(), getFont());
-			int x=0;
-			if(textArea.width > textSize.width){				
+			int x=textArea.height;
+			if(textArea.width > textSize.width + textArea.height){				
 				switch (binLabelPosition) {
-				case CENTER:
-				case TOP:
-				case BOTTOM:
+				case LEFT:
 					x = (textArea.width - textSize.width)/2;
 					break;
 				case RIGHT:
-				case TOP_RIGHT:
-				case BOTTOM_RIGHT:
 					x = textArea.width - textSize.width;
 					break;
 				default:					
@@ -139,22 +128,8 @@ public class FaultIndicatorFigure extends Figure implements Introspectable {
 			}
 			
 			int y=0;
-			if(textArea.height > textSize.height){
-				switch (binLabelPosition) {
-				case CENTER:
-				case LEFT:
-				case RIGHT:
-					y = (textArea.height - textSize.height)/2;
-					break;
-				case BOTTOM:
-				case BOTTOM_LEFT:
-				case BOTTOM_RIGHT:
-					y =textArea.height - textSize.height;
-					break;
-				default:
-					break;
-				}
-			}
+			y = (textArea.height - textSize.height)/2;
+
 			if(useLocalCoordinates())
 				labelLocation = new Point(x, y);
 			else
@@ -327,7 +302,7 @@ public class FaultIndicatorFigure extends Figure implements Introspectable {
 			/*binLabel.setBounds(new Rectangle(myBounds.x + myBounds.width/2 - labelSize.width/2,
 					myBounds.y + myBounds.height/2 - labelSize.height/2,
 					labelSize.width, labelSize.height));*/
-			calculateLabelLocation(new Point (myBounds.x + myBounds.width/2 - labelSize.width/2,
+			calculateLabelLocation(new Point (myBounds.x + myBounds.height,
 											  myBounds.y + myBounds.height/2 - labelSize.height/2));
 			binLabel.setBounds(new Rectangle(labelLocation.x, labelLocation.y,
 											 labelSize.width, labelSize.height));
@@ -343,6 +318,9 @@ public class FaultIndicatorFigure extends Figure implements Introspectable {
 		graphics.pushState();
 		graphics.setAntialias(SWT.ON);		
 		Rectangle clientArea = getClientArea().getCopy();
+		// force square
+		clientArea.width = clientArea.height;
+		
 		fontColor = getForegroundColor();
 		if (FaultIndicatorAuto) {
 			fillColor = getBackgroundColor();
