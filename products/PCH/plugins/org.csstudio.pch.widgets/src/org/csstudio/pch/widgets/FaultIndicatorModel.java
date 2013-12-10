@@ -89,6 +89,7 @@ public class FaultIndicatorModel extends AbstractPVWidgetModel {
 		setPropertyVisibleAndSavable(PROP_BACKCOLOR_ALARMSENSITIVE, false, false);
 		setPropertyVisibleAndSavable(PROP_FORECOLOR_ALARMSENSITIVE, false, false);
 		setPropertyVisibleAndSavable(PROP_BORDER_ALARMSENSITIVE, false, false);
+		setPropertyValue(PROP_BORDER_ALARMSENSITIVE, false);
 	}
 	/**
 	 * The ID of this widget model.
