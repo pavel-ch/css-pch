@@ -466,10 +466,9 @@ public class BinaryFigure extends Figure implements Introspectable {
 			binLabel.setForegroundColor(fontColor);
 		}
 		
-		boolean support3D = GraphicsUtil.testPatternSupported(graphics);
-			if(effect3D && support3D){
+			if(effect3D && GraphicsUtil.testPatternSupported(graphics)){
 				//draw up border			
-				Pattern pattern = GraphicsUtil.createScaledPattern(graphics, Display.getCurrent(), clientArea.x, clientArea.y, 
+				/*Pattern pattern = GraphicsUtil.createScaledPattern(graphics, Display.getCurrent(), clientArea.x, clientArea.y, 
 					clientArea.x, clientArea.y+SQURE_BORDER_WIDTH, BLACK_COLOR, 20, BLACK_COLOR, 100);			
 				graphics.setBackgroundPattern(pattern);
 				graphics.fillPolygon(new int[]{clientArea.x, clientArea.y, 
@@ -512,38 +511,41 @@ public class BinaryFigure extends Figure implements Introspectable {
 					clientArea.x + clientArea.width - SQURE_BORDER_WIDTH, 
 					clientArea.y + clientArea.height - SQURE_BORDER_WIDTH,
 					clientArea.x + clientArea.width, clientArea.y + clientArea.height});
-				pattern.dispose();		
+				pattern.dispose();	*/	
 				
 				//draw light
-				clientArea.shrink(SQURE_BORDER_WIDTH, SQURE_BORDER_WIDTH);
+				int nas = 1;
+				if (getBorder() instanceof org.csstudio.opibuilder.visualparts.VersatileLineBorder)
+				{
+					clientArea.expand(SQURE_BORDER_WIDTH, SQURE_BORDER_WIDTH);
+					nas = 2;
+				}
+				graphics.setBackgroundColor(BLACK_COLOR);
+		        graphics.fillRectangle(clientArea);
+		        clientArea.shrink(nas*SQURE_BORDER_WIDTH, nas*SQURE_BORDER_WIDTH);
+				//clientArea.shrink(SQURE_BORDER_WIDTH, SQURE_BORDER_WIDTH);
 		        graphics.setBackgroundColor(fillColor);
 		        graphics.fillRectangle(clientArea);
-				pattern = GraphicsUtil.createScaledPattern(graphics, Display.getCurrent(), clientArea.x,	clientArea.y,
+		        Pattern pattern = GraphicsUtil.createScaledPattern(graphics, Display.getCurrent(), clientArea.x,	clientArea.y,
 		        		clientArea.x + clientArea.width, clientArea.y + clientArea.height,
 		        		WHITE_COLOR, 200, fillColor, 0);
 		        graphics.setBackgroundPattern(pattern);
 		       	graphics.fillRectangle(clientArea);		
 		       	pattern.dispose();
 				
-			}else { //if not 3D
-//				clientArea.shrink(SQURE_BORDER_WIDTH/2, SQURE_BORDER_WIDTH/2);
-				//clientArea.x+=SQURE_BORDER_WIDTH;
-				//clientArea.y+=SQURE_BORDER_WIDTH;
-//				graphics.setForegroundColor(DARK_GRAY_COLOR);
-				graphics.setForegroundColor(BLACK_COLOR);
-				graphics.setLineWidth(SQURE_BORDER_WIDTH);
+			}
+			else { //if not 3D
+				int nas = 1;
+				if (getBorder() instanceof org.csstudio.opibuilder.visualparts.VersatileLineBorder)
+				{
+					clientArea.expand(SQURE_BORDER_WIDTH, SQURE_BORDER_WIDTH);
+					nas = 2;
+				}
+				graphics.setBackgroundColor(BLACK_COLOR);
+		        graphics.fillRectangle(clientArea);
+		        clientArea.shrink(nas*SQURE_BORDER_WIDTH, nas*SQURE_BORDER_WIDTH);
 				graphics.setBackgroundColor(fillColor);
 		        graphics.fillRectangle(clientArea);
-				clientArea.width-=SQURE_BORDER_WIDTH;
-				clientArea.height-=SQURE_BORDER_WIDTH;
-				graphics.drawRectangle(clientArea);
-				
-				//clientArea.shrink(SQURE_BORDER_WIDTH/2, SQURE_BORDER_WIDTH/2);
-				/*clientArea.x+=SQURE_BORDER_WIDTH;
-				clientArea.y+=SQURE_BORDER_WIDTH;
-				clientArea.width-=SQURE_BORDER_WIDTH;
-				clientArea.height-=SQURE_BORDER_WIDTH;*/
-
 			}
 			
 		
