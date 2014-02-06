@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Check parameters
-set VERSION=3.2.11
+set VERSION=3.2.15
 set BUILD_DIR="C:\DATA\Java\css-git\cs-studio\build"
 
 echo ::: Prepare splash :::
