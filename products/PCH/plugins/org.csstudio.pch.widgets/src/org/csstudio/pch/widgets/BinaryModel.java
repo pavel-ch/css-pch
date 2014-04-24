@@ -7,6 +7,9 @@
  ******************************************************************************/
 package org.csstudio.pch.widgets;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import org.csstudio.opibuilder.model.AbstractPVWidgetModel;
 import org.csstudio.opibuilder.properties.BooleanProperty;
 import org.csstudio.opibuilder.properties.ColorProperty;
@@ -153,6 +156,7 @@ public class BinaryModel extends AbstractPVWidgetModel {
 		setPropertyVisibleAndSavable(PROP_FORECOLOR_ALARMSENSITIVE, false, false);
 		setPropertyVisibleAndSavable(PROP_BORDER_ALARMSENSITIVE, false, false);
 		setPropertyValue(PROP_BORDER_ALARMSENSITIVE, false);
+		setPropVisibilityAuto(false);
 	}
 	/**
 	 * The ID of this widget model.
@@ -266,5 +270,45 @@ public class BinaryModel extends AbstractPVWidgetModel {
 	 */
 	public boolean isBinaryAuto() {
 		return (Boolean) getProperty(PROP_BINARY_AUTO).getPropertyValue();
+	}
+
+	public void setPropVisibilityAuto(boolean Auto)
+	{
+        Logger logger = Logger.getLogger(getClass().getName());
+        logger.log(Level.INFO, "Auto = ".concat(String.valueOf(Auto)).concat(" ").concat(getName()));
+        //logger.log(Level.INFO, "PROP_LABEL_1 = ".concat(String.valueOf(model.setPropertyVisibleAndSavable(prop_id, visible, isSavable))).concat(" ").concat(model.getName()));
+
+		if (Auto) {
+			//getWidgetModel().setPropertyVisible(BinaryModel.PROP_LABEL_0, true);
+			setPropertyVisible(BinaryModel.PROP_LABEL_1, false);
+			setPropertyVisible(BinaryModel.PROP_LABEL_2, false);
+			setPropertyVisible(BinaryModel.PROP_LABEL_3, false);
+			setPropertyVisible(BinaryModel.PROP_COLOR_0, false);
+			setPropertyVisible(BinaryModel.PROP_COLOR_1, false);
+			setPropertyVisible(BinaryModel.PROP_COLOR_2, false);
+			setPropertyVisible(BinaryModel.PROP_COLOR_3, false);
+			setPropertyVisible(BinaryModel.PROP_COLORF_0, false);
+			setPropertyVisible(BinaryModel.PROP_COLORF_1, false);
+			setPropertyVisible(BinaryModel.PROP_COLORF_2, false);
+			setPropertyVisible(BinaryModel.PROP_COLORF_3, false);
+			setPropertyVisible(BinaryModel.PROP_COLOR_BACKGROUND, true);
+			setPropertyVisible(BinaryModel.PROP_COLOR_FOREGROUND, true);
+		}
+		else {
+			//model.setPropertyVisible(BinaryModel.PROP_LABEL_0, false);
+			setPropertyVisible(BinaryModel.PROP_LABEL_1, true);
+			setPropertyVisible(BinaryModel.PROP_LABEL_2, true);
+			setPropertyVisible(BinaryModel.PROP_LABEL_3, true);
+			setPropertyVisible(BinaryModel.PROP_COLOR_0, true);
+			setPropertyVisible(BinaryModel.PROP_COLOR_1, true);
+			setPropertyVisible(BinaryModel.PROP_COLOR_2, true);
+			setPropertyVisible(BinaryModel.PROP_COLOR_3, true);
+			setPropertyVisible(BinaryModel.PROP_COLORF_0, true);
+			setPropertyVisible(BinaryModel.PROP_COLORF_1, true);
+			setPropertyVisible(BinaryModel.PROP_COLORF_2, true);
+			setPropertyVisible(BinaryModel.PROP_COLORF_3, true);
+			setPropertyVisible(BinaryModel.PROP_COLOR_BACKGROUND, false);
+			setPropertyVisible(BinaryModel.PROP_COLOR_FOREGROUND, false);
+		}
 	}
 }

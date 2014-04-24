@@ -7,12 +7,11 @@
  ******************************************************************************/
 package org.csstudio.pch.widgets;
 
-//import java.beans.PropertyChangeEvent;
-//import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 import org.csstudio.opibuilder.editparts.AbstractPVWidgetEditPart;
 import org.csstudio.opibuilder.model.AbstractPVWidgetModel;
-//import org.csstudio.opibuilder.model.AbstractWidgetModel;
 import org.csstudio.opibuilder.properties.IWidgetPropertyChangeHandler;
 import org.csstudio.opibuilder.util.OPIColor;
 import org.csstudio.pch.widgets.BinaryFigure;
@@ -53,6 +52,7 @@ public class BinaryEditPart extends AbstractPVWidgetEditPart{
 				model.getFont().getFontData()));
 		Binary.setBinLabelPosition(model.getBinLabelPosition());
 		Binary.setEffect3D(model.isEffect3D());
+		model.setPropVisibilityAuto(model.isBinaryAuto());
 		Binary.setBinaryAuto(model.isBinaryAuto());
 		return Binary;
 		
@@ -81,6 +81,26 @@ public class BinaryEditPart extends AbstractPVWidgetEditPart{
 
 		};
 		setPropertyChangeHandler(AbstractPVWidgetModel.PROP_PVVALUE, handler);
+
+		// Binary Auto
+		handler = new IWidgetPropertyChangeHandler() {
+			public boolean handleChange(final Object oldValue,
+					final Object newValue,
+					final IFigure refreshableFigure) {
+				BinaryFigure Binary = (BinaryFigure) refreshableFigure;
+				Binary.setBinaryAuto((Boolean) newValue);
+				return true;
+			}
+		};
+		setPropertyChangeHandler(BinaryModel.PROP_BINARY_AUTO, handler);	
+
+		// Binary Auto
+		getWidgetModel().getProperty(BinaryModel.PROP_BINARY_AUTO).addPropertyChangeListener(new PropertyChangeListener() {
+			@Override
+			public void propertyChange(PropertyChangeEvent evt) {
+				getWidgetModel().setPropVisibilityAuto((Boolean) evt.getNewValue());
+			}
+		});
 
 		// show bool label
 		handler = new IWidgetPropertyChangeHandler() {
@@ -257,45 +277,6 @@ public class BinaryEditPart extends AbstractPVWidgetEditPart{
 		};
 		setPropertyChangeHandler(BinaryModel.PROP_EFFECT3D, handler);	
 		
-		// Binary Auto
-		handler = new IWidgetPropertyChangeHandler() {
-			public boolean handleChange(final Object oldValue,
-					final Object newValue,
-					final IFigure refreshableFigure) {
-				BinaryFigure Binary = (BinaryFigure) refreshableFigure;
-				Binary.setBinaryAuto((Boolean) newValue);
-				/*if(!(Boolean)newValue){
-					int width = Math.min(getWidgetModel().getWidth(), getWidgetModel().getHeight());
-					getWidgetModel().setSize(width, width);
-				}*/
-				return true;
-			}
-		};
-		setPropertyChangeHandler(BinaryModel.PROP_BINARY_AUTO, handler);	
-		
-		/*//force square size
-		final IWidgetPropertyChangeHandler sizeHandler = new IWidgetPropertyChangeHandler() {
-			
-			public boolean handleChange(Object oldValue, Object newValue, IFigure figure) {
-				if(getWidgetModel().isBinaryAuto())
-					return false;
-				if(((Integer)newValue) < BinaryModel.MINIMUM_SIZE)
-					newValue = BinaryModel.MINIMUM_SIZE;			
-				getWidgetModel().setSize((Integer)newValue, (Integer)newValue);
-				return false;
-			}
-		};		
-		PropertyChangeListener sizeListener = new PropertyChangeListener() {
-		
-			public void propertyChange(PropertyChangeEvent evt) {
-				sizeHandler.handleChange(evt.getOldValue(), evt.getNewValue(), getFigure());
-			}
-		};
-		getWidgetModel().getProperty(AbstractWidgetModel.PROP_WIDTH).
-			addPropertyChangeListener(sizeListener);
-		getWidgetModel().getProperty(AbstractWidgetModel.PROP_HEIGHT).
-			addPropertyChangeListener(sizeListener);*/
-		
 	}
 
 	/* (non-Javadoc)
@@ -325,4 +306,5 @@ public class BinaryEditPart extends AbstractPVWidgetEditPart{
 			return;
 		figure.setValue(VTypeHelper.getDouble(newValue));
 	}
+	
 }
