@@ -620,7 +620,7 @@ public class BinaryFigure extends Figure implements Introspectable {
 	}
 
 	/**
-	 * @param binAuto the squareLED to set
+	 * @param binAuto to set
 	 */
 	public void setBinaryAuto(boolean binAuto) {
 		if(this.binaryAuto == binAuto)

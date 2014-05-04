@@ -7,9 +7,6 @@
  ******************************************************************************/
 package org.csstudio.pch.widgets;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import org.csstudio.opibuilder.model.AbstractPVWidgetModel;
 import org.csstudio.opibuilder.properties.BooleanProperty;
 import org.csstudio.opibuilder.properties.ColorProperty;
@@ -274,8 +271,8 @@ public class BinaryModel extends AbstractPVWidgetModel {
 
 	public void setPropVisibilityAuto(boolean Auto)
 	{
-        Logger logger = Logger.getLogger(getClass().getName());
-        logger.log(Level.INFO, "Auto = ".concat(String.valueOf(Auto)).concat(" ").concat(getName()));
+        //Logger logger = Logger.getLogger(getClass().getName());
+        //logger.log(Level.INFO, "Auto = ".concat(String.valueOf(Auto)).concat(" ").concat(getName()));
         //logger.log(Level.INFO, "PROP_LABEL_1 = ".concat(String.valueOf(model.setPropertyVisibleAndSavable(prop_id, visible, isSavable))).concat(" ").concat(model.getName()));
 
 		if (Auto) {

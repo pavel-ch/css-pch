@@ -10,6 +10,9 @@ package org.csstudio.pch.widgets;
 //import java.beans.PropertyChangeEvent;
 //import java.beans.PropertyChangeListener;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
 import org.csstudio.opibuilder.editparts.AbstractPVWidgetEditPart;
 import org.csstudio.opibuilder.model.AbstractPVWidgetModel;
 //import org.csstudio.opibuilder.model.AbstractWidgetModel;
@@ -44,6 +47,7 @@ public class FaultIndicatorEditPart extends AbstractPVWidgetEditPart{
 				model.getFont().getFontData()));
 		FaultIndicator.setBinLabelPosition(model.getBinLabelPosition());
 		FaultIndicator.setEffect3D(model.isEffect3D());
+		model.setPropVisibilityAuto(model.isFaultIndicatorAuto());
 		FaultIndicator.setFaultIndicatorAuto(model.isFaultIndicatorAuto());
 		return FaultIndicator;
 		
@@ -160,29 +164,14 @@ public class FaultIndicatorEditPart extends AbstractPVWidgetEditPart{
 		};
 		setPropertyChangeHandler(FaultIndicatorModel.PROP_FAULTINDICATOR_AUTO, handler);	
 		
-		//force square size
-		/*final IWidgetPropertyChangeHandler sizeHandler = new IWidgetPropertyChangeHandler() {
-			
-			public boolean handleChange(Object oldValue, Object newValue, IFigure figure) {
-				if(getWidgetModel().isFaultIndicatorAuto())
-					return false;
-				if(((Integer)newValue) < FaultIndicatorModel.MINIMUM_SIZE)
-					newValue = FaultIndicatorModel.MINIMUM_SIZE;			
-				getWidgetModel().setSize((Integer)newValue, (Integer)newValue);
-				return false;
-			}
-		};		
-		PropertyChangeListener sizeListener = new PropertyChangeListener() {
-		
+		// FaultIndicator Auto
+		getWidgetModel().getProperty(FaultIndicatorModel.PROP_FAULTINDICATOR_AUTO).addPropertyChangeListener(new PropertyChangeListener() {
+			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
-				sizeHandler.handleChange(evt.getOldValue(), evt.getNewValue(), getFigure());
+				getWidgetModel().setPropVisibilityAuto((Boolean) evt.getNewValue());
 			}
-		};
-		getWidgetModel().getProperty(AbstractWidgetModel.PROP_WIDTH).
-			addPropertyChangeListener(sizeListener);
-		getWidgetModel().getProperty(AbstractWidgetModel.PROP_HEIGHT).
-			addPropertyChangeListener(sizeListener);*/
-		
+		});
+
 	}
 
 	/* (non-Javadoc)

@@ -71,7 +71,7 @@ public class FaultIndicatorModel extends AbstractPVWidgetModel {
 	protected void configureProperties() {
 		addProperty(new BooleanProperty(PROP_FAULTINDICATOR_SHOW_LABEL, "Show Label",
 				WidgetPropertyCategory.Display, true));		
-		addProperty(new StringProperty(PROP_LABEL, "Label 0",
+		addProperty(new StringProperty(PROP_LABEL, "Label",
 				WidgetPropertyCategory.Display, DEFAULT_LABEL));	
 		addProperty(new ColorProperty(PROP_COLOR_0, "Color Background 0",
 				WidgetPropertyCategory.Display, DEFAULT_COLOR_0));		
@@ -145,5 +145,23 @@ public class FaultIndicatorModel extends AbstractPVWidgetModel {
 	 */
 	public boolean isFaultIndicatorAuto() {
 		return (Boolean) getProperty(PROP_FAULTINDICATOR_AUTO).getPropertyValue();
+	}
+	
+	public void setPropVisibilityAuto(boolean Auto)
+	{
+        //Logger logger = Logger.getLogger(getClass().getName());
+        //logger.log(Level.INFO, "Auto = ".concat(String.valueOf(Auto)).concat(" ").concat(getName()));
+        //logger.log(Level.INFO, "PROP_LABEL_1 = ".concat(String.valueOf(model.setPropertyVisibleAndSavable(prop_id, visible, isSavable))).concat(" ").concat(model.getName()));
+
+		if (Auto) {
+			setPropertyVisible(FaultIndicatorModel.PROP_COLOR_0, false);
+			setPropertyVisible(FaultIndicatorModel.PROP_COLOR_1, false);
+			setPropertyVisible(FaultIndicatorModel.PROP_COLOR_BACKGROUND, true);
+		}
+		else {
+			setPropertyVisible(FaultIndicatorModel.PROP_COLOR_0, true);
+			setPropertyVisible(FaultIndicatorModel.PROP_COLOR_1, true);
+			setPropertyVisible(FaultIndicatorModel.PROP_COLOR_BACKGROUND, false);
+		}
 	}
 }

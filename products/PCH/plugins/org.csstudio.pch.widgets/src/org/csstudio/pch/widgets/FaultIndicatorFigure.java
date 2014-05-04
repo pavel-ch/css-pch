@@ -304,7 +304,7 @@ public class FaultIndicatorFigure extends Figure implements Introspectable {
 					labelSize.width, labelSize.height));*/
 			calculateLabelLocation(new Point (myBounds.x + myBounds.height,
 											  myBounds.y + myBounds.height/2 - labelSize.height/2));
-			binLabel.setBounds(new Rectangle(labelLocation.x, labelLocation.y,
+			binLabel.setBounds(new Rectangle(labelLocation.x+50, labelLocation.y,
 											 labelSize.width, labelSize.height));
 		}
 		super.layout();
